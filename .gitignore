@@ -11,3 +11,4 @@ data/analysis/*
 !data/analysis/.gitkeep
 
 llama-server.log
+api.log
