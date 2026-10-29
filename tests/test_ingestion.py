@@ -10,6 +10,7 @@ from app.ingestion import (
     save_json,
     validate_records,
 )
+from app.schemas import TelemetryRecord
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -50,7 +51,7 @@ def test_full_source_matches_contract_and_checked_in_sample(tmp_path):
     assert all(record.hrv.rmssd_ms is None and record.hrv.sdnn_ms is None for record in records)
 
     expected = json.loads((ROOT / "data/processed/telemetry.json").read_text())
-    assert [record.model_dump() for record in records] == expected
+    assert [record.model_dump() for record in records] == [TelemetryRecord.model_validate(row).model_dump() for row in expected]
 
     output = tmp_path / "telemetry.json"
     save_json(records, output)
@@ -81,3 +82,18 @@ def test_invalid_schema_fails_without_discarding_rows():
         validate_records([malformed], SCHEMA)
     with pytest.raises(ValueError, match="Every input row"):
         generate_quality_report(normalize_telemetry(rows[:1], SCHEMA), 2)
+
+
+def test_optional_accelerometer_columns_are_validated_and_preserved():
+    row = sample_rows()[0]
+    row.update({"acceleration_rms_m_s2": "0.8", "jerk_rms_m_s3": "1.2",
+                "shock_events_per_minute": "3", "sensor_location": "seat",
+                "seat_to_pelvis_transfer_model": "validated_model_v1",
+                "vehicle_type": "bus", "seating_position": "rear"})
+    record = normalize_telemetry(validate_records([row], SCHEMA), SCHEMA)[0]
+    assert record.mechanical.acceleration_rms_m_s2 == 0.8
+    assert record.mechanical.jerk_rms_m_s3 == 1.2
+    assert record.mechanical.sensor_location == "seat"
+    assert record.vehicle_type == "bus"
+    assert record.seating_position == "rear"
+    assert record.source_columns["mechanical.acceleration_rms_m_s2"] == "acceleration_rms_m_s2"

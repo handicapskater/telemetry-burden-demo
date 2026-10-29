@@ -258,12 +258,25 @@
     "AnalysisResponse",
     "IngestResponse",
     "AskRequest",
-    "AskResponse"
+    "AskResponse",
+    "SubjectContext",
+    "EvidencePayload",
+    "PainBurdenReport"
   ],
   "workout_identity": [
     "start_time_whoop",
     "activity_name_whoop",
     "duration_min"
   ],
-  "join_policy": "Retain all candidates; mark repeated WHOOP and Strava keys ambiguous; deduplicate workout identity only during analysis."
+  "join_policy": "Retain all candidates; mark repeated WHOOP and Strava keys ambiguous; deduplicate workout identity only during analysis.",
+  "optional_input_columns": [
+    "acceleration_rms_m_s2",
+    "jerk_rms_m_s3",
+    "shock_events_per_minute",
+    "vibration_hz",
+    "sensor_location",
+    "seat_to_pelvis_transfer_model",
+    "vehicle_type",
+    "seating_position"
+  ]
 }

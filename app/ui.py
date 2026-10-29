@@ -19,7 +19,13 @@ import streamlit as st
 
 
 API_BASE_URL = os.environ.get("API_BASE_URL", "http://localhost:8000").rstrip("/")
-TIMEOUT = 30.0
+TIMEOUT = 90.0
+
+PAIN_EXAMPLES = [
+    "How might walking-related pelvic loading contribute to pain-associated cardiovascular burden?",
+    "How could inline skating reduce mechanical pain while maintaining cardiovascular exercise?",
+    "How might ParaTransit vehicle vibration and jolts provoke pelvic pain and autonomic stress?",
+]
 
 
 def _url(path: str) -> str:
@@ -354,10 +360,44 @@ def _results_panel() -> None:
                 st.error(f"{title} unavailable: {_api_error(exc)}")
 
 
+def _pain_report_panel(report: dict[str, Any]) -> None:
+    st.subheader("Physiological and Pain-Associated Burden")
+    st.caption("Activity mode is not a pain label. Measured telemetry, subject reports, and proposed mechanisms have separate evidence roles.")
+    observed = report.get("observed_physiological_burden") or {}
+    st.markdown("**Measured physiological burden**")
+    for finding in observed.get("findings") or []:
+        st.write(f"• {finding}")
+    ids = observed.get("evidence_ids") or []
+    st.caption("Telemetry evidence IDs: " + (", ".join(map(str, ids)) if ids else "none cited"))
+    biomechanical = report.get("biomechanical_interpretation") or {}
+    st.markdown("**Potential biomechanical pain mechanisms**")
+    st.write(biomechanical.get("mechanism") or "No mechanism assessed.")
+    for item in biomechanical.get("supporting_evidence") or []:
+        st.write(f"Supporting context: {item}")
+    psychological = report.get("psychological_component") or {}
+    st.markdown("**Psychological and autonomic considerations**")
+    for item in psychological.get("potential_mechanisms") or []:
+        st.write(f"• {item}")
+    st.caption("Direct psychological evidence: " + ("; ".join(psychological.get("direct_evidence") or []) or "none in this dataset"))
+    mobility = report.get("mobility_aid_implications") or {}
+    st.markdown("**Functional implications for mobility**")
+    st.write(mobility.get("functional_interpretation") or "No functional interpretation available.")
+    pain = report.get("pain_association") or {}
+    st.markdown("**Evidence strength**")
+    st.write("Evidence strength: " + (pain.get("evidence_strength") or "insufficient") +
+             " · Interpretive confidence: " + (pain.get("confidence") or "insufficient"))
+    st.write(pain.get("reasoning") or "")
+    uncertainty = report.get("uncertainty") or {}
+    st.markdown("**Uncertainty and limitations**")
+    for item in (uncertainty.get("missing_data") or []) + (uncertainty.get("causal_limitations") or []) + (psychological.get("limitations") or []):
+        st.write(f"• {item}")
+
+
 def _ask_panel() -> None:
-    st.subheader("Ask the specialists")
+    st.subheader("Ask the evidence")
+    example = st.selectbox("Example questions", ["Choose an example"] + PAIN_EXAMPLES)
     with st.form("ask_form"):
-        question = st.text_input("Question", placeholder="What does the observed training data show?")
+        question = st.text_input("Question", value=example if example != "Choose an example" else "", placeholder="Ask about measured burden or a proposed pain mechanism")
         submitted = st.form_submit_button("Ask", type="primary")
     if submitted:
         if not question.strip():
@@ -375,6 +415,8 @@ def _ask_panel() -> None:
     if not answer:
         return
     st.markdown(answer.get("answer") or "No answer returned.")
+    if isinstance(answer.get("report"), dict):
+        _pain_report_panel(answer["report"])
     specialist = answer.get("specialist")
     latency = _number(answer.get("latency_ms"))
     st.caption(f"Specialist: {specialist or 'Unknown'}" + (f" · {latency:.0f} ms" if latency is not None else ""))
@@ -385,6 +427,8 @@ def _ask_panel() -> None:
         st.caption("Evidence record IDs: " + ", ".join(map(str, answer["evidence_ids"])))
     if answer.get("limitations"):
         st.warning("Limitations: " + " ".join(map(str, answer["limitations"])))
+    if answer.get("validation_reasons"):
+        st.caption("Evidence validator: " + "; ".join(map(str, answer["validation_reasons"])))
     with st.expander("Execution trace", expanded=True):
         trace = answer.get("execution_trace") or []
         if trace:

@@ -11,6 +11,11 @@ from typing import Any, Mapping, Sequence
 from app.schemas import QualityReport, TelemetryRecord
 
 DEFAULT_SCHEMA = Path(__file__).resolve().parents[1] / "data/metadata/schema.json"
+OPTIONAL_MECHANICAL_COLUMNS = {
+    "acceleration_rms_m_s2", "jerk_rms_m_s3", "shock_events_per_minute",
+    "vibration_hz", "sensor_location", "seat_to_pelvis_transfer_model",
+    "vehicle_type", "seating_position",
+}
 
 
 def load_csv(path: str | Path) -> list[dict[str, str]]:
@@ -33,7 +38,8 @@ def validate_records(
     expected = set(schema["input_columns"])
     validated = []
     for number, row in enumerate(rows, 1):
-        if set(row) != expected or any(value is None for value in row.values()):
+        columns = set(row)
+        if not expected.issubset(columns) or columns - expected - OPTIONAL_MECHANICAL_COLUMNS or any(value is None for value in row.values()):
             raise ValueError(f"Source row {number} does not match the input schema")
         validated.append(dict(row))
     return validated
@@ -91,8 +97,14 @@ def normalize_telemetry(
             distance_miles=_number(row["metrics.distance_miles"]),
             heart_rate={"mean_bpm": _number(row["metrics.average_hr_bpm_whoop"]), "max_bpm": _number(row["metrics.max_hr_bpm_whoop"]), "resting_bpm": _number(row["metrics.resting_hr_bpm"])},
             hrv={"hrv_ms": _number(row["metrics.hrv_ms"]), "rmssd_ms": None, "sdnn_ms": None, "context": "WHOOP daily recovery; not an activity HRV measurement"},
+            mechanical={key: _number(row.get(key, "")) for key in (
+                "acceleration_rms_m_s2", "jerk_rms_m_s3", "shock_events_per_minute", "vibration_hz")}
+                | {key: _optional(row.get(key, "")) for key in (
+                    "sensor_location", "seat_to_pelvis_transfer_model")},
+            vehicle_type=_optional(row.get("vehicle_type", "")),
+            seating_position=_optional(row.get("seating_position", "")),
             join={"likely_match": row["likely_match"].lower() == "true", "start_delta_min": _number(row["start_delta_min"]), "whoop_candidate_count": whoop_count, "strava_candidate_count": strava_count, "ambiguous": whoop_count > 1 or strava_count > 1},
-            source_columns=mappings,
+            source_columns={**mappings, **{f"mechanical.{key}": key for key in OPTIONAL_MECHANICAL_COLUMNS if key in row}},
             original_units={"duration_minutes": "minutes", "distance_miles": "miles", "heart_rate": "bpm", "hrv": "ms", "start_delta_min": "minutes"},
         )
         records.append(record)
@@ -125,6 +137,9 @@ def generate_quality_report(records: Sequence[TelemetryRecord], total_input_rows
             "hrv": sum(record.hrv.hrv_ms is None for record in records),
             "rmssd": sum(record.hrv.rmssd_ms is None for record in records),
             "sdnn": sum(record.hrv.sdnn_ms is None for record in records),
+            "acceleration_rms": sum(record.mechanical.acceleration_rms_m_s2 is None for record in records),
+            "jerk_rms": sum(record.mechanical.jerk_rms_m_s3 is None for record in records),
+            "shock_frequency": sum(record.mechanical.shock_events_per_minute is None for record in records),
         },
         device_coverage={"WHOOP": sum("WHOOP" in record.sources for record in records), "Strava": sum("Strava" in record.sources for record in records), "Polar": 0},
         activity_coverage=dict(activity_counts),

@@ -14,3 +14,4 @@ llama-server.log
 api.log
 ui.log
 .idea/
+evaluation/live_llama_responses.json

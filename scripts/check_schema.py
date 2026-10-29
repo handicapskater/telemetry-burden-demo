@@ -21,7 +21,8 @@ raw = ROOT / "data/raw/whoop_strava_join_candidates.csv"
 if raw.exists():
     with raw.open(encoding="utf-8-sig", newline="") as handle:
         columns = csv.DictReader(handle).fieldnames
-    assert columns == metadata["input_columns"], "CSV columns differ from committed schema"
+    assert set(metadata["input_columns"]).issubset(columns), "CSV is missing required columns"
+    assert set(columns) - set(metadata["input_columns"]) <= set(metadata.get("optional_input_columns", [])), "CSV has unsupported columns"
 
 processed = ROOT / "data/processed/telemetry.json"
 if processed.exists():

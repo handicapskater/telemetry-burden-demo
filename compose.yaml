@@ -7,7 +7,7 @@ services:
       LLAMA_BASE_URL: ${LLAMA_BASE_URL:-http://host.docker.internal:8080/v1}
       LLAMA_MODEL: ${LLAMA_MODEL:-local}
       LLM_PROVIDER: ${LLM_PROVIDER:-llama}
-      LLAMA_TIMEOUT_SECONDS: ${LLAMA_TIMEOUT_SECONDS:-8}
+      LLAMA_TIMEOUT_SECONDS: ${LLAMA_TIMEOUT_SECONDS:-45}
     ports:
       - "${API_PORT:-8000}:8000"
     volumes:

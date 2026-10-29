@@ -10,7 +10,9 @@ from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import END, START, StateGraph
 
 from app.analysis import analyze_records
-from app.inference import NUMBER, local_completion, validate_evidence
+from app.evidence import build_evidence_payload, deterministic_report, ground_report
+from app.inference import local_completion, validate_pain_report
+from app.schemas import EvidencePayload, PainBurdenReport
 
 
 class AnalysisState(TypedDict, total=False):
@@ -25,6 +27,9 @@ class AnalysisState(TypedDict, total=False):
     candidate: dict[str, Any] | None
     inference_status: str
     answer: str
+    evidence: dict[str, Any]
+    report: dict[str, Any]
+    validation_reasons: list[str]
 
 
 def _supervisor(state: AnalysisState) -> AnalysisState:
@@ -54,7 +59,7 @@ def _data_specialist(state: AnalysisState) -> AnalysisState:
 
 def _mentioned_categories(question: str, categories: list[str]) -> list[str]:
     normalized = question.lower().replace("_", " ").replace("-", " ")
-    aliases = {"transportation": ("commute", "commuting", "transport", "transportation"),
+    aliases = {"transportation": ("commute", "commuting", "transport", "transportation", "paratransit", "bus", "vehicle"),
                "skating": ("skate", "skates", "skating", "inline skate", "inline skating")}
     selected = []
     for category in categories:
@@ -68,9 +73,9 @@ def _analysis_specialist(state: AnalysisState) -> AnalysisState:
     result = analyze_records(state["records"])
     activities = result["activities"]
     question = state["question"].lower()
-    pain_question = "pain" in question
+    pain_question = bool(re.search(r"\b(prove pain|proves pain|mean.*more pain|causes more pain)\b", question))
     mobility_question = bool(re.search(r"\b(mobility aid|alternative mobility|skate.vs.walk|skating versus walking)\b", question))
-    supported_question = bool(re.search(r"\b(hr|hrv|heart|burden|physiolog\w*|stress|pain|walk\w*|skat\w*|commut\w*|transport\w*|mobility|activit\w*|duration|distance|recovery|strain|whoop|strava|polar|device\w*|record\w*|measur\w*)\b", question))
+    supported_question = bool(re.search(r"\b(hr|hrv|heart|burden|physiolog\w*|stress|pain|pelvic|walk\w*|skat\w*|commut\w*|transport\w*|paratransit|bus|vehicle|vibrat\w*|jolt\w*|mobility|activit\w*|duration|distance|recovery|strain|whoop|strava|polar|device\w*|record\w*|measur\w*)\b", question))
     highest_hr_question = bool(re.search(r"\b(highest|maximum|peak|max)\b", question) and re.search(r"\b(hr|heart rate)\b", question))
     selected = _mentioned_categories(question, result["observed_activities"])
     missing = []
@@ -136,68 +141,67 @@ def _analysis_specialist(state: AnalysisState) -> AnalysisState:
             "execution_trace": state["execution_trace"] + ["analysis_specialist: deterministic category statistics"]}
 
 
+def _biomechanical_stage(state: AnalysisState) -> AnalysisState:
+    evidence = build_evidence_payload(state["question"], state["metrics"], state["records"])
+    return {"evidence": evidence.model_dump(),
+            "execution_trace": state["execution_trace"] + ["biomechanical_interpretation: measured exposure versus proposed loading"]}
+
+
+def _autonomic_stage(state: AnalysisState) -> AnalysisState:
+    evidence = EvidencePayload.model_validate(state["evidence"])
+    note = "Daily recovery HRV is not an event-specific autonomic measurement"
+    if note not in evidence.missing_data:
+        evidence.missing_data.append(note)
+    return {"evidence": evidence.model_dump(),
+            "execution_trace": state["execution_trace"] + ["pain_autonomic_interpretation: HR and recovery HRV context"]}
+
+
+def _psychological_stage(state: AnalysisState) -> AnalysisState:
+    evidence = EvidencePayload.model_validate(state["evidence"])
+    note = "No validated psychological assessment or synchronized stress self-report"
+    if note not in evidence.missing_data:
+        evidence.missing_data.append(note)
+    return {"evidence": evidence.model_dump(),
+            "execution_trace": state["execution_trace"] + ["psychological_interpretation: hypotheses and absent direct assessment"]}
+
+
 def _llama_node(state: AnalysisState) -> AnalysisState:
-    if "No walking workouts are observed" in state["draft"] or "telemetry cannot answer this question" in state["draft"]:
-        return {"candidate": None, "inference_status": "local inference skipped: missing category abstention",
+    if "telemetry cannot answer this question" in state["draft"]:
+        return {"candidate": None, "inference_status": "unsupported question",
                 "execution_trace": state["execution_trace"] + ["llama: abstention"]}
-    metrics = state["metrics"]
-    selected = _mentioned_categories(state["question"], metrics["observed_activities"])
-    structured = {
-        "input_rows": metrics["input_rows"], "unique_workouts": metrics["unique_workouts"],
-        "activities": {name: {k: v for k, v in metrics["activities"][name].items() if k != "evidence_ids"}
-                       for name in selected},
-        "comparisons": [item for item in metrics["comparisons"]
-                        if item["activity_a"] in selected and item["activity_b"] in selected],
-        "hrv_context": metrics["hrv_context"],
-    }
-    candidate, status = local_completion(state["question"], state["draft"], state["evidence_ids"], structured)
+    evidence = EvidencePayload.model_validate(state["evidence"])
+    candidate, status = local_completion(state["question"], evidence)
     return {"candidate": candidate, "inference_status": status,
             "execution_trace": state["execution_trace"] + ["llama: " + status]}
 
 
 def _validator_node(state: AnalysisState) -> AnalysisState:
+    evidence = EvidencePayload.model_validate(state["evidence"])
     candidate = state.get("candidate")
+    report: PainBurdenReport | None = None
+    reasons: list[str] = []
     if candidate is not None:
-        if not validate_evidence(candidate, allowed_numbers=set(NUMBER.findall(state["draft"])), allowed_ids=set(state["evidence_ids"])):
-            candidate = None
-        else:
-            answer = candidate["answer"]
-            if "HRV" in state["draft"] and "HRV" not in answer:
-                candidate = None
-            if "median HR signed difference" in state["draft"]:
-                relevant = [c for c in state["metrics"]["comparisons"]
-                            if c["activity_a"] in state["draft"] and c["activity_b"] in state["draft"]]
-                for comparison in relevant:
-                    activity_b = comparison["activity_b"]
-                    b_present = activity_b in answer.lower() or (activity_b == "transportation" and "commuting" in answer.lower())
-                    if not (comparison["activity_a"] in answer.lower() and b_present
-                            and ("median heart rate" in answer.lower() or "median hr" in answer.lower()
-                                 or "burden proxy" in answer.lower())):
-                        candidate = None
-                    if candidate is not None and "higher median heart rate" in answer.lower():
-                        second_name = activity_b if activity_b in answer.lower() else "commuting"
-                        first_mentioned = answer.lower().find(comparison["activity_a"]) < answer.lower().find(second_name)
-                        first_hr, second_hr = comparison["median_hr_bpm_a"], comparison["median_hr_bpm_b"]
-                        if first_hr is None or second_hr is None or not (first_hr > second_hr if first_mentioned else second_hr > first_hr):
-                            candidate = None
-            if "No Polar" in state["draft"] and not re.search(r"\bno\b.{0,40}\bPolar\b", answer, re.I):
-                candidate = None
-            if "No activity RMSSD" in state["draft"] and not re.search(r"\bno\b.{0,40}\bRMSSD\b", answer, re.I):
-                candidate = None
-            if "cannot independently prove pain" in state["draft"] and not re.search(r"\b(cannot|can't|does not|doesn't|no proof|not proof)\b.*\bpain\b", answer, re.I):
-                candidate = None
-            if "cannot independently prove pain" in state["draft"] and not all(term in answer.lower() for term in ("exertion", "fitness", "medication", "temperature")):
-                candidate = None
-            if "No walking observations support" in state["draft"] and not ("walking" in answer.lower() and re.search(r"\b(no|cannot|unavailable|not)\b", answer, re.I)):
-                candidate = None
-            if "An alternative mobility aid may" in state["draft"] and "general" not in answer.lower():
-                candidate = None
-    if candidate is None:
-        return {"answer": "[Deterministic fallback] " + state["draft"],
-                "execution_trace": state["execution_trace"] + ["evidence_validator: deterministic fallback"]}
-    return {"answer": candidate["answer"] + "\n\nComputed evidence: " + state["draft"], "evidence_ids": candidate["evidence_ids"],
-            "limitations": list(dict.fromkeys(state["limitations"] + candidate.get("limitations", []))),
-            "execution_trace": state["execution_trace"] + ["evidence_validator: accepted"]}
+        report, reasons = validate_pain_report(candidate, evidence, state["question"])
+    if report is None:
+        report = deterministic_report(state["question"], evidence)
+        if candidate is None and state.get("inference_status"):
+            reasons.append(state["inference_status"])
+        answer = "[Deterministic fallback] " + (state["draft"] if "telemetry cannot answer this question" in state["draft"] else report.conclusion)
+        if state.get("draft") and "telemetry cannot answer this question" not in state["draft"]:
+            answer += "\n\nComputed evidence: " + state["draft"]
+        status = "evidence_validator: deterministic fallback"
+    else:
+        report = ground_report(report, state["question"], evidence)
+        answer = report.conclusion
+        if report.observed_physiological_burden.findings:
+            answer += "\n\nMeasured burden: " + " ".join(report.observed_physiological_burden.findings)
+        status = "evidence_validator: accepted"
+    limitations = list(dict.fromkeys(state["limitations"] + report.uncertainty.missing_data
+                                      + report.uncertainty.causal_limitations + reasons))
+    return {"answer": answer, "report": report.model_dump(),
+            "evidence_ids": report.observed_physiological_burden.evidence_ids,
+            "limitations": limitations, "validation_reasons": reasons,
+            "execution_trace": state["execution_trace"] + [status]}
 
 
 def _build_graph():
@@ -205,13 +209,19 @@ def _build_graph():
     builder.add_node("supervisor", _supervisor)
     builder.add_node("data_specialist", _data_specialist)
     builder.add_node("analysis_specialist", _analysis_specialist)
+    builder.add_node("biomechanical_interpretation", _biomechanical_stage)
+    builder.add_node("pain_autonomic_interpretation", _autonomic_stage)
+    builder.add_node("psychological_interpretation", _psychological_stage)
     builder.add_node("llama", _llama_node)
     builder.add_node("evidence_validator", _validator_node)
     builder.add_edge(START, "supervisor")
     builder.add_conditional_edges("supervisor", lambda state: state["route"],
                                   {"data": "data_specialist", "analysis": "analysis_specialist"})
-    builder.add_edge("data_specialist", "llama")
-    builder.add_edge("analysis_specialist", "llama")
+    builder.add_edge("data_specialist", "biomechanical_interpretation")
+    builder.add_edge("analysis_specialist", "biomechanical_interpretation")
+    builder.add_edge("biomechanical_interpretation", "pain_autonomic_interpretation")
+    builder.add_edge("pain_autonomic_interpretation", "psychological_interpretation")
+    builder.add_edge("psychological_interpretation", "llama")
     builder.add_edge("llama", "evidence_validator")
     builder.add_edge("evidence_validator", END)
     return builder.compile(checkpointer=MemorySaver())
@@ -235,6 +245,8 @@ def answer_question(question: str, session_id: str, records: list[dict[str, Any]
         "metrics": state["metrics"],
         "evidence_ids": state["evidence_ids"],
         "limitations": state["limitations"],
+        "validation_reasons": state["validation_reasons"],
         "execution_trace": state["execution_trace"],
         "latency_ms": round((perf_counter() - started) * 1000, 2),
+        "report": state["report"],
     }
