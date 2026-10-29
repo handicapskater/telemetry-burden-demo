@@ -9,3 +9,5 @@ data/analysis/*
 !data/raw/.gitkeep
 !data/processed/.gitkeep
 !data/analysis/.gitkeep
+
+llama-server.log
