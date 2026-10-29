@@ -12,3 +12,4 @@ data/analysis/*
 
 llama-server.log
 api.log
+ui.log
