@@ -1,0 +1,74 @@
+{
+  "initial": {
+    "http_status": 200,
+    "response": {
+      "choices": [
+        {
+          "finish_reason": "stop",
+          "index": 0,
+          "message": {
+            "content": "{\n  \"episode_id\": \"mev_0279fab6690d8e5103f6c91166c0030b225e3ec9efd6253899bd363414d33314\",\n  \"summary\": \"ParaTransit bus episode on May 23, 2026, with 92 minutes and 53 seconds of duration.\",\n  \"measured_burden\": {\n    \"physiological\": [\n      \"WHOOP average HR: 77 bpm\",\n      \"WHOOP max HR: 106 bpm\"\n    ],\n    \"mechanical\": []\n  },\n  \"pain_association\": {\n    \"interpretation\": \"Insufficient evidence to support pain association\",\n    \"supporting_evidence\": [],\n    \"conflicting_evidence\": [\n      \"No episode pain rating or psychological assessment available\"\n    ],\n    \"alternative_explanations\": [\n      \"Physical activity and posture\",\n      \"Respiration and ectopic beats\",\n      \"Medication, temperature and stress\"\n    ]\n  },\n  \"psychological_component\": {\n    \"interpretation\": \"Uncertain\",\n    \"direct_evidence\": [],\n    \"hypotheses\": [\n      \"Possible anticipatory stress\"\n    ]\n  },\n  \"confidence\": {\n    \"level\": \"insufficient\",\n    \"basis\": \"Absence of raw samples, P90 duration, SDNN change, and short-window HR change\",\n    \"calibrated_probability\": null\n  },\n  \"limitations\": [\n    \"Raw timestamped ACC X/Y/Z, RRI, ECG and marker observations not available\",\n    \"Original minute-level RMS/jerk/shock distributions and P90 thresholds not available\",\n    \"Raw windows behind the reported 0.2169 g, 12.94 g/s, 22-minute P90, +54.25 ms SDNN and +10.09 bpm HR figures not available\",\n    \"Same-context HR and HRV baseline windows and full calculation code/results not available\",\n    \"Governed seat position not available\",\n    \"Synchronized pain rating or psychological assessment not available\",\n    \"Seat-to-pelvis transfer model not available\"\n  ],\n  \"conclusion\": \"Insufficient evidence to support pain association due to absence of raw samples, P90 duration, SDNN change, and short-window HR change.\"\n}",
+            "role": "assistant"
+          }
+        }
+      ],
+      "created": 1793310039,
+      "model": "local",
+      "system_fingerprint": "b4404-0827b2c1",
+      "object": "chat.completion",
+      "usage": {
+        "completion_tokens": 477,
+        "prompt_tokens": 3381,
+        "total_tokens": 3858
+      },
+      "id": "chatcmpl-4jDMX1lfZYfcWLuwmMwjezrvRT7M49t0",
+      "timings": {
+        "prompt_n": 656,
+        "prompt_ms": 1801.404,
+        "prompt_per_token_ms": 2.7460426829268294,
+        "prompt_per_second": 364.16039933296474,
+        "predicted_n": 477,
+        "predicted_ms": 15524.476,
+        "predicted_per_token_ms": 32.546071278826,
+        "predicted_per_second": 30.725674734528884
+      }
+    },
+    "model_content": "{\n  \"episode_id\": \"mev_0279fab6690d8e5103f6c91166c0030b225e3ec9efd6253899bd363414d33314\",\n  \"summary\": \"ParaTransit bus episode on May 23, 2026, with 92 minutes and 53 seconds of duration.\",\n  \"measured_burden\": {\n    \"physiological\": [\n      \"WHOOP average HR: 77 bpm\",\n      \"WHOOP max HR: 106 bpm\"\n    ],\n    \"mechanical\": []\n  },\n  \"pain_association\": {\n    \"interpretation\": \"Insufficient evidence to support pain association\",\n    \"supporting_evidence\": [],\n    \"conflicting_evidence\": [\n      \"No episode pain rating or psychological assessment available\"\n    ],\n    \"alternative_explanations\": [\n      \"Physical activity and posture\",\n      \"Respiration and ectopic beats\",\n      \"Medication, temperature and stress\"\n    ]\n  },\n  \"psychological_component\": {\n    \"interpretation\": \"Uncertain\",\n    \"direct_evidence\": [],\n    \"hypotheses\": [\n      \"Possible anticipatory stress\"\n    ]\n  },\n  \"confidence\": {\n    \"level\": \"insufficient\",\n    \"basis\": \"Absence of raw samples, P90 duration, SDNN change, and short-window HR change\",\n    \"calibrated_probability\": null\n  },\n  \"limitations\": [\n    \"Raw timestamped ACC X/Y/Z, RRI, ECG and marker observations not available\",\n    \"Original minute-level RMS/jerk/shock distributions and P90 thresholds not available\",\n    \"Raw windows behind the reported 0.2169 g, 12.94 g/s, 22-minute P90, +54.25 ms SDNN and +10.09 bpm HR figures not available\",\n    \"Same-context HR and HRV baseline windows and full calculation code/results not available\",\n    \"Governed seat position not available\",\n    \"Synchronized pain rating or psychological assessment not available\",\n    \"Seat-to-pelvis transfer model not available\"\n  ],\n  \"conclusion\": \"Insufficient evidence to support pain association due to absence of raw samples, P90 duration, SDNN change, and short-window HR change.\"\n}"
+  },
+  "retry": {
+    "http_status": 200,
+    "response": {
+      "choices": [
+        {
+          "finish_reason": "stop",
+          "index": 0,
+          "message": {
+            "content": "{\n  \"episode_id\": \"mev_0279fab6690d8e5103f6c91166c0030b225e3ec9efd6253899bd363414d33314\",\n  \"summary\": \"ParaTransit bus episode on May 23, 2026, with 3 people on board.\",\n  \"measured_burden\": {\n    \"physiological\": [\n      \"WHOOP average HR: 77 bpm\",\n      \"WHOOP max HR: 106 bpm\"\n    ],\n    \"mechanical\": []\n  },\n  \"pain_association\": {\n    \"interpretation\": \"Insufficient evidence to support pain association\",\n    \"supporting_evidence\": [\n      \"Inventory mobility event ID: mev_0279fab6690d8e5103f6c91166c0030b225e3ec9efd6253899bd363414d33314\",\n      \"Inventory duration: 92:53\",\n      \"Inventory aggregate HR: 77 bpm\"\n    ],\n    \"conflicting_evidence\": [\n      \"No pain rating or psychological assessment available\",\n      \"No governed seat position or seat-to-pelvis transfer model available\"\n    ],\n    \"alternative_explanations\": [\n      \"Physical activity and posture\",\n      \"Respiration and ectopic beats\",\n      \"Medication, temperature and stress\"\n    ]\n  },\n  \"psychological_component\": {\n    \"interpretation\": \"Uncertain\",\n    \"direct_evidence\": [],\n    \"hypotheses\": [\n      \"Possible anticipatory stress\"\n    ]\n  },\n  \"confidence\": {\n    \"level\": \"insufficient\",\n    \"basis\": \"Missing evidence and uncertain psychological component\",\n    \"calibrated_probability\": null\n  },\n  \"limitations\": [\n    \"Raw timestamped ACC X/Y/Z, RRI, ECG and marker observations not available\",\n    \"Original minute-level RMS/jerk/shock distributions and P90 thresholds not available\",\n    \"Raw windows behind the reported 0.2169 g, 12.94 g/s, 22-minute P90, +54.25 ms SDNN and +10.09 bpm HR figures not available\",\n    \"Same-context HR and HRV baseline windows and full calculation code/results not available\",\n    \"Governed seat position not available\",\n    \"Synchronized pain rating or psychological assessment not available\",\n    \"Seat-to-pelvis transfer model not available\"\n  ],\n  \"conclusion\": \"Insufficient evidence to support pain association in this episode.\"\n}",
+            "role": "assistant"
+          }
+        }
+      ],
+      "created": 1793310057,
+      "model": "local",
+      "system_fingerprint": "b4404-0827b2c1",
+      "object": "chat.completion",
+      "usage": {
+        "completion_tokens": 524,
+        "prompt_tokens": 3484,
+        "total_tokens": 4008
+      },
+      "id": "chatcmpl-9E1WjTKSDk2B4LPKbcYJDqKncsnPn2oR",
+      "timings": {
+        "prompt_n": 109,
+        "prompt_ms": 348.452,
+        "prompt_per_token_ms": 3.196807339449541,
+        "prompt_per_second": 312.81209463570303,
+        "predicted_n": 524,
+        "predicted_ms": 17054.041,
+        "predicted_per_token_ms": 32.54587977099237,
+        "predicted_per_second": 30.72585553183553
+      }
+    },
+    "model_content": "{\n  \"episode_id\": \"mev_0279fab6690d8e5103f6c91166c0030b225e3ec9efd6253899bd363414d33314\",\n  \"summary\": \"ParaTransit bus episode on May 23, 2026, with 3 people on board.\",\n  \"measured_burden\": {\n    \"physiological\": [\n      \"WHOOP average HR: 77 bpm\",\n      \"WHOOP max HR: 106 bpm\"\n    ],\n    \"mechanical\": []\n  },\n  \"pain_association\": {\n    \"interpretation\": \"Insufficient evidence to support pain association\",\n    \"supporting_evidence\": [\n      \"Inventory mobility event ID: mev_0279fab6690d8e5103f6c91166c0030b225e3ec9efd6253899bd363414d33314\",\n      \"Inventory duration: 92:53\",\n      \"Inventory aggregate HR: 77 bpm\"\n    ],\n    \"conflicting_evidence\": [\n      \"No pain rating or psychological assessment available\",\n      \"No governed seat position or seat-to-pelvis transfer model available\"\n    ],\n    \"alternative_explanations\": [\n      \"Physical activity and posture\",\n      \"Respiration and ectopic beats\",\n      \"Medication, temperature and stress\"\n    ]\n  },\n  \"psychological_component\": {\n    \"interpretation\": \"Uncertain\",\n    \"direct_evidence\": [],\n    \"hypotheses\": [\n      \"Possible anticipatory stress\"\n    ]\n  },\n  \"confidence\": {\n    \"level\": \"insufficient\",\n    \"basis\": \"Missing evidence and uncertain psychological component\",\n    \"calibrated_probability\": null\n  },\n  \"limitations\": [\n    \"Raw timestamped ACC X/Y/Z, RRI, ECG and marker observations not available\",\n    \"Original minute-level RMS/jerk/shock distributions and P90 thresholds not available\",\n    \"Raw windows behind the reported 0.2169 g, 12.94 g/s, 22-minute P90, +54.25 ms SDNN and +10.09 bpm HR figures not available\",\n    \"Same-context HR and HRV baseline windows and full calculation code/results not available\",\n    \"Governed seat position not available\",\n    \"Synchronized pain rating or psychological assessment not available\",\n    \"Seat-to-pelvis transfer model not available\"\n  ],\n  \"conclusion\": \"Insufficient evidence to support pain association in this episode.\"\n}"
+  }
+}

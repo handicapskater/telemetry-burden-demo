@@ -1,0 +1,109 @@
+{
+  "evidence": {
+    "status": "PARTIAL: original sample files and private frozen run outputs unavailable locally",
+    "episode": {
+      "mobility_event_id": "mev_0279fab6690d8e5103f6c91166c0030b225e3ec9efd6253899bd363414d33314",
+      "logical_session_id": "ParaTransit_Bus_2026-05-23T210816",
+      "raw_event_label": "ParaTransit - Bus with 3 people",
+      "event_date_local": "2026-05-23",
+      "event_start_local": "2026-05-23 21:08:16",
+      "event_duration_seconds": "5573",
+      "vehicle_type": "bus",
+      "provider_service": "ParaTransit",
+      "quality_status": "verified",
+      "seat_position": "UNKNOWN",
+      "seat_authority": "NO_GOVERNED_SEAT",
+      "whoop_average_hr_bpm": "77",
+      "whoop_max_hr_bpm": "106",
+      "has_acc": "True",
+      "has_rri": "True",
+      "has_ecg": "True",
+      "independent_pain_rating_available": "False",
+      "pain_annotation_type": "ABSENT_SESSION_RATING",
+      "acc_source_hash": "8c7dfcbe7488f49dd4b148d8d1a33e7e6c0a25713324f2faec08c460b1a798ad",
+      "rri_source_hash": "5afc78a8f8941c6004da48e965c11c628d82ecccd03c4480b08a83f0f5c55265",
+      "ecg_source_hash": "8754f0bfc4a4ec541ce07bca2de4e0498857175f8256260ae5a13b20534f5c2f",
+      "markers_source_hash": "24b629433b0e7866f9f352b6ecad3733054cb93aca8ad85e8d52d281b41d8f95",
+      "estimated_sampling_rate_hz": "50",
+      "source_acc_unit": "mg_inferred",
+      "normalized_acc_unit": "g",
+      "timing_alignment_status": "UNRESOLVED_COMPONENT_DURATION_DISCORDANCE"
+    },
+    "source_record_ids": [
+      "mev_0279fab6690d8e5103f6c91166c0030b225e3ec9efd6253899bd363414d33314",
+      "nr_c7eee0d67b821185ff8bd4bcb478e43552f3a26fa0c3243d3ba470ef51bf9ac3"
+    ],
+    "source_files": {
+      "inventory": "/Users/troywilkes/repos/hs-portal-release/analysis/transportation_exposure/TRANSPORTATION_SESSION_INVENTORY.csv",
+      "reference": "/Users/troywilkes/repos/hs-portal-release/analysis/transport_burden_01/REFERENCE.json",
+      "raw_expected": {
+        "Acc": "/Users/troywilkes/repos/hs-portal-release/data/raw/kubios/archive/2026-07-31/mobility_source_process_20260731T192421Z_f1a2eaf0/ParaTransit_Bus_2026-05-23T210816_Acc.csv",
+        "RRI": "/Users/troywilkes/repos/hs-portal-release/data/raw/kubios/archive/2026-07-31/mobility_source_process_20260731T192421Z_f1a2eaf0/ParaTransit_Bus_2026-05-23T210816_RRI.csv",
+        "ECG": "/Users/troywilkes/repos/hs-portal-release/data/raw/kubios/archive/2026-07-31/mobility_source_process_20260731T192421Z_f1a2eaf0/ParaTransit_Bus_2026-05-23T210816_ECG.csv",
+        "Markers": "/Users/troywilkes/repos/hs-portal-release/data/raw/kubios/archive/2026-07-31/mobility_source_process_20260731T192421Z_f1a2eaf0/ParaTransit_Bus_2026-05-23T210816_Markers.csv"
+      },
+      "raw_file_available": {
+        "Acc": false,
+        "RRI": false,
+        "ECG": false,
+        "Markers": false
+      }
+    },
+    "timing_audit_metadata": {
+      "source": "/Users/troywilkes/repos/hs-portal-release/analysis/transportation_exposure/timing_forensics_20260919/SESSION_CLOCK_AUDIT.csv",
+      "status": "reported row counts; raw samples not inspected",
+      "acc_rows": 1126728,
+      "rri_rows": 7173,
+      "ecg_rows": 723138,
+      "markers_rows": 1,
+      "acc_start": "2026-05-23T21:08:16-07:00",
+      "rri_start": "2026-05-23T21:08:16-07:00",
+      "ecg_start": "2026-05-23T21:08:16-07:00"
+    },
+    "reported_derived_findings": {
+      "provenance": "Frozen descriptive reference headline; values cannot be independently recomputed here",
+      "reference_run_id": "20261005T-TRANSPORT-BURDEN-01-V3",
+      "run_manifest_sha256": "8c19c78d1a5cf76f49de7c105d389992e0628d89c6462831be1e3ecd1b8982d8",
+      "may23_headline_verbatim": "92:53, rank 1/59; RMS above P75 62.8833 min / 67.7%; jerk above P75 62.8833 min / 67.7%; beginning-to-end RMS +90.8%, jerk +38.0%",
+      "cohort": "59 telemetry-linked governed ParaTransit rides, 2026-05-15 through 2026-09-06; 3,888 ride-bound windows",
+      "duration_reference_minutes": {
+        "median": 38.48,
+        "p75": 43.03,
+        "p90": 52.38,
+        "p95": 63.87
+      }
+    },
+    "missing": [
+      "Raw timestamped ACC X/Y/Z, RRI, ECG and marker observations",
+      "Original minute-level RMS/jerk/shock distributions and P90 thresholds",
+      "Raw windows behind the reported 0.2169 g, 12.94 g/s, 22-minute P90, +54.25 ms SDNN and +10.09 bpm HR figures",
+      "Same-context HR and HRV baseline windows and full calculation code/results",
+      "Governed seat position",
+      "Synchronized pain rating or psychological assessment",
+      "Seat-to-pelvis transfer model"
+    ],
+    "confounders": [
+      "Physical activity and posture",
+      "Respiration and ectopic beats",
+      "Medication, temperature and stress",
+      "Sensor placement and body coupling"
+    ]
+  },
+  "calculations": {
+    "method": "Python arithmetic on committed inventory fields only; no sample-level reconstruction",
+    "duration_seconds": 5573,
+    "duration_minutes": 92.88333333333334,
+    "duration_clock": "92:53",
+    "duration_formula": "event_duration_seconds / 60",
+    "mean_hr_bpm": 77,
+    "max_hr_bpm": 106,
+    "hr_baseline_delta_bpm": null,
+    "hrv_baseline_delta_ms": null,
+    "rms_distribution_g": null,
+    "jerk_distribution_g_per_s": null,
+    "mechanical_exposure_percentiles": null,
+    "sustained_high_burden_minutes": null,
+    "vehicle_seat_comparison": null,
+    "reason": "The source sample series, comparable baseline windows, and frozen private run outputs are absent; reference headlines are not raw measurements"
+  }
+}

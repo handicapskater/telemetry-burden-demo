@@ -140,3 +140,25 @@ def episode_analyze() -> EpisodeAuditResponse:
         raise HTTPException(422, str(exc)) from exc
     except (httpx.HTTPError, KeyError, IndexError, TypeError) as exc:
         raise HTTPException(503, f"Local Llama inference unavailable: {type(exc).__name__}") from exc
+
+
+@app.get("/may23")
+def may23_preview() -> dict[str, Any]:
+    from app.may23 import evidence_and_calculations
+    try:
+        evidence, calculations = evidence_and_calculations()
+        return {"evidence": evidence, "calculations": calculations}
+    except (OSError, ValueError, KeyError) as exc:
+        raise HTTPException(503, f"May 23 provenance unavailable: {exc}") from exc
+
+
+@app.post("/may23/analyze")
+def may23_analyze() -> dict[str, Any]:
+    import httpx
+    from app.may23 import analyze_may23
+    try:
+        return analyze_may23()
+    except (OSError, ValueError, KeyError) as exc:
+        raise HTTPException(503, f"May 23 provenance unavailable: {exc}") from exc
+    except httpx.HTTPError as exc:
+        raise HTTPException(503, f"Local Llama inference unavailable: {type(exc).__name__}") from exc

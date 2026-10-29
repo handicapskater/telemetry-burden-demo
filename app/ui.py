@@ -500,6 +500,50 @@ def _episode_panel() -> None:
             st.write("Execution trace", audit.get("execution_trace") or [])
 
 
+def _may23_panel() -> None:
+    with st.expander("May 23: Complete Inference Trace"):
+        try:
+            preview = _get("/may23")
+        except (httpx.HTTPError, ValueError, TypeError) as exc:
+            st.info(f"May 23 provenance unavailable: {_api_error(exc)}")
+            return
+        evidence = preview["evidence"]
+        st.warning(evidence["status"])
+        st.write("Source inventory record", evidence["episode"])
+        st.write("Raw telemetry availability", evidence["source_files"]["raw_file_available"])
+        st.write("Deterministic calculations", preview["calculations"])
+        st.write("Reference-reported derived findings", evidence["reported_derived_findings"])
+        st.write("Missing measurements", evidence["missing"])
+        st.markdown("**Structured JSON evidence payload**")
+        st.json(evidence)
+        if st.button("Run Live Llama Analysis", key="may23_live"):
+            try:
+                st.session_state["may23_live_audit"] = _post("/may23/analyze")
+            except (httpx.HTTPError, ValueError, TypeError) as exc:
+                st.error(f"Live analysis failed: {_api_error(exc)}")
+        audit = st.session_state.get("may23_live_audit")
+        if audit:
+            messages = audit["request"]["body"]["messages"]
+            st.markdown("**Exact system prompt**")
+            st.code(messages[0]["content"])
+            st.markdown("**Exact user prompt**")
+            st.code(messages[1]["content"])
+            st.write("Model settings", {k: v for k, v in audit["request"].items() if k != "body"} |
+                     {k: v for k, v in audit["request"]["body"].items() if k != "messages"})
+            st.markdown("**Unedited Llama response**")
+            st.code(audit["raw_response"]["model_content"])
+            if audit.get("retry_request"):
+                st.write("Initial validation", audit.get("initial_validation"))
+                st.markdown("**Exact retry user prompt**")
+                st.code(audit["retry_request"]["body"]["messages"][1]["content"])
+                st.markdown("**Unedited retry response**")
+                st.code(audit["retry_raw_response"]["model_content"])
+            candidate = audit.get("candidate") or {}
+            st.write("Confidence", candidate.get("confidence"))
+            st.write("Validation", audit.get("validation"))
+            st.write("LangGraph execution", audit.get("execution_trace"))
+
+
 def main() -> None:
     st.set_page_config(page_title="Telemetry interview dashboard", layout="wide")
     if "session_id" not in st.session_state:
@@ -516,6 +560,7 @@ def main() -> None:
     _results_panel()
     _ask_panel()
     _episode_panel()
+    _may23_panel()
 
 
 if __name__ == "__main__":

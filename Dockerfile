@@ -10,6 +10,7 @@ RUN python -m pip install --no-cache-dir -r requirements.txt
 COPY app ./app
 COPY scripts ./scripts
 COPY data/metadata ./data/metadata
+COPY reports/may23_evidence.json ./reports/may23_evidence.json
 RUN mkdir -p data/raw data/processed data/analysis \
     && chmod +x scripts/start.sh
 

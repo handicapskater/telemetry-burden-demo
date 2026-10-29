@@ -1,0 +1,116 @@
+{
+  "initial": {
+    "passed": false,
+    "checks": {
+      "pydantic": {
+        "passed": true,
+        "detail": ""
+      },
+      "identity": {
+        "passed": true,
+        "detail": ""
+      },
+      "evidence_ids": {
+        "passed": true,
+        "detail": "['mev_0279fab6690d8e5103f6c91166c0030b225e3ec9efd6253899bd363414d33314']"
+      },
+      "supporting_evidence": {
+        "passed": false,
+        "detail": ""
+      },
+      "conflicting_evidence": {
+        "passed": true,
+        "detail": ""
+      },
+      "missing_data": {
+        "passed": true,
+        "detail": ""
+      },
+      "confidence": {
+        "passed": true,
+        "detail": ""
+      },
+      "no_measured_pain": {
+        "passed": true,
+        "detail": ""
+      },
+      "no_diagnosis": {
+        "passed": true,
+        "detail": ""
+      },
+      "no_pelvic_force": {
+        "passed": true,
+        "detail": ""
+      },
+      "no_raw_claim": {
+        "passed": true,
+        "detail": ""
+      },
+      "metric_alignment": {
+        "passed": true,
+        "detail": "mismatched=[]"
+      },
+      "numerical_claims": {
+        "passed": true,
+        "detail": "unsupported=[]"
+      }
+    }
+  },
+  "final": {
+    "passed": true,
+    "checks": {
+      "pydantic": {
+        "passed": true,
+        "detail": ""
+      },
+      "identity": {
+        "passed": true,
+        "detail": ""
+      },
+      "evidence_ids": {
+        "passed": true,
+        "detail": "['mev_0279fab6690d8e5103f6c91166c0030b225e3ec9efd6253899bd363414d33314']"
+      },
+      "supporting_evidence": {
+        "passed": true,
+        "detail": ""
+      },
+      "conflicting_evidence": {
+        "passed": true,
+        "detail": ""
+      },
+      "missing_data": {
+        "passed": true,
+        "detail": ""
+      },
+      "confidence": {
+        "passed": true,
+        "detail": ""
+      },
+      "no_measured_pain": {
+        "passed": true,
+        "detail": ""
+      },
+      "no_diagnosis": {
+        "passed": true,
+        "detail": ""
+      },
+      "no_pelvic_force": {
+        "passed": true,
+        "detail": ""
+      },
+      "no_raw_claim": {
+        "passed": true,
+        "detail": ""
+      },
+      "metric_alignment": {
+        "passed": true,
+        "detail": "mismatched=[]"
+      },
+      "numerical_claims": {
+        "passed": true,
+        "detail": "unsupported=[]"
+      }
+    }
+  }
+}
