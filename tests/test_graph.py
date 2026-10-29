@@ -58,3 +58,22 @@ def test_llama_client_generate_uses_local_openai_endpoint(monkeypatch):
     candidate = LlamaClient().generate("question", {"draft": "grounded", "evidence_ids": []})
     assert candidate["answer"] == "grounded"
     assert calls[0][0] == "http://localhost:8080/v1/chat/completions"
+
+
+def test_commuting_alias_uses_computed_comparison_and_accepts_grounded_llama(monkeypatch):
+    skating = record("row_1")
+    commuting = record("row_2")
+    commuting["activity"] = "transportation"
+    commuting["original_activities"]["whoop"] = "Commuting"
+    commuting["original_timestamps"]["whoop_start"] = "2024-01-02T00:00:00Z"
+    commuting["heart_rate"]["mean_bpm"] = 80
+    monkeypatch.setattr("app.graph.local_completion", lambda *_: (
+        {"answer": "Skating has a higher median heart rate than transportation.",
+         "evidence_ids": ["row_1", "row_2"], "limitations": []},
+        "local llama.cpp response received"))
+    result = answer_question("Compare skating and commuting cardiovascular burden", "alias-test", [skating, commuting])
+    assert result["specialist"] == "analysis"
+    assert result["metrics"]["comparisons"][0]["sample_size_a"] == 1
+    assert result["execution_trace"][-1] == "evidence_validator: accepted"
+    assert "Computed evidence:" in result["answer"]
+    assert "transportation" in result["answer"]

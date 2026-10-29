@@ -43,15 +43,20 @@ class LlamaClient:
     def generate(self, question: str, analysis_results: dict[str, Any]) -> dict[str, Any]:
         draft = analysis_results["draft"]
         evidence_ids = analysis_results["evidence_ids"]
+        structured = analysis_results.get("metrics", {})
         prompt = (
-            "Rewrite the supplied grounded answer for clarity. Return only JSON with "
+            "Rewrite the supplied grounded answer for clarity. Preserve every requested activity, "
+            "the exact median heart rate figures and difference, sample sizes, and burden proxy caveat when present. "
+            "Answer with at least two informative sentences. Return only JSON with "
             "answer (string), evidence_ids (array of strings), limitations (array of strings). "
             "Do not introduce numerical claims, source IDs, or causal claims. Preserve all scientific caveats.\n"
-            f"Question: {question}\nGrounded answer: {draft}\nAllowed evidence IDs: {json.dumps(evidence_ids)}"
+            f"Question: {question}\nGrounded answer: {draft}\n"
+            f"Computed Python results: {json.dumps(structured)}\nAllowed evidence IDs: {json.dumps(evidence_ids)}"
         )
         response = httpx.post(
             f"{self.base_url}/chat/completions",
-            json={"model": self.model, "temperature": 0, "messages": [{"role": "user", "content": prompt}]},
+            json={"model": self.model, "temperature": 0, "response_format": {"type": "json_object"},
+                  "messages": [{"role": "user", "content": prompt}]},
             timeout=self.timeout,
         )
         response.raise_for_status()
@@ -61,11 +66,11 @@ class LlamaClient:
         return candidate
 
 
-def local_completion(question: str, draft: str, evidence_ids: list[str]) -> tuple[dict[str, Any] | None, str]:
+def local_completion(question: str, draft: str, evidence_ids: list[str], metrics: dict[str, Any] | None = None) -> tuple[dict[str, Any] | None, str]:
     """Return an unvalidated local candidate or a reason for fallback."""
     if os.getenv("LLM_PROVIDER", "llama").lower() != "llama":
         return None, "unsupported LLM_PROVIDER; only llama is supported"
     try:
-        return LlamaClient().generate(question, {"draft": draft, "evidence_ids": evidence_ids}), "local llama.cpp response received"
+        return LlamaClient().generate(question, {"draft": draft, "evidence_ids": evidence_ids, "metrics": metrics or {}}), "local llama.cpp response received"
     except (httpx.HTTPError, ValueError, KeyError, IndexError, TypeError) as exc:
         return None, f"local inference unavailable: {type(exc).__name__}"

@@ -99,6 +99,7 @@ def analyze_records(records: Iterable[Any]) -> dict[str, Any]:
             "median_duration_minutes": round(median(durations), 2) if durations else None,
             "max_duration_minutes": _max(durations),
             "mean_heart_rate_bpm": _mean(heart_rates),
+            "heart_rate_sample_count": len(heart_rates),
             "median_heart_rate_bpm": _median(heart_rates),
             "max_heart_rate_bpm": _max(max_heart_rates),
             "mean_daily_hrv_ms": _mean(daily_hrv),
@@ -116,7 +117,7 @@ def analyze_records(records: Iterable[Any]) -> dict[str, Any]:
         left, right = activities[first], activities[second]
         comparisons.append({
             "activity_a": first, "activity_b": second,
-            "sample_size_a": left["count"], "sample_size_b": right["count"],
+            "sample_size_a": left["heart_rate_sample_count"], "sample_size_b": right["heart_rate_sample_count"],
             "median_hr_bpm_a": left["median_heart_rate_bpm"],
             "median_hr_bpm_b": right["median_heart_rate_bpm"],
             "median_hr_difference_b_minus_a": _difference(left["median_heart_rate_bpm"], right["median_heart_rate_bpm"]),

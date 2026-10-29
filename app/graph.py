@@ -54,7 +54,14 @@ def _data_specialist(state: AnalysisState) -> AnalysisState:
 
 def _mentioned_categories(question: str, categories: list[str]) -> list[str]:
     normalized = question.lower().replace("_", " ").replace("-", " ")
-    return [category for category in categories if re.search(r"(?<!\w)" + re.escape(category.replace("_", " ")) + r"(?!\w)", normalized)]
+    aliases = {"transportation": ("commute", "commuting", "transport", "transportation"),
+               "skating": ("skate", "skates", "skating", "inline skate", "inline skating")}
+    selected = []
+    for category in categories:
+        names = aliases.get(category, (category.replace("_", " "),))
+        if any(re.search(r"(?<!\w)" + re.escape(name) + r"(?!\w)", normalized) for name in names):
+            selected.append(category)
+    return selected
 
 
 def _analysis_specialist(state: AnalysisState) -> AnalysisState:
@@ -88,7 +95,7 @@ def _analysis_specialist(state: AnalysisState) -> AnalysisState:
         for category in selected:
             values = activities[category]
             clauses.append(
-                f"{category}: {values['count']} workouts; mean duration {values['mean_duration_minutes']} minutes; "
+                f"{category}: {values['count']} workouts ({values['heart_rate_sample_count']} with mean HR); mean duration {values['mean_duration_minutes']} minutes; "
                 f"median duration {values['median_duration_minutes']} minutes; "
                 f"mean workout HR {values['mean_heart_rate_bpm']} bpm; median workout HR {values['median_heart_rate_bpm']} bpm; "
                 f"max workout HR {values['max_heart_rate_bpm']} bpm; mean burden proxy {values['mean_burden_proxy']} "
@@ -123,7 +130,17 @@ def _llama_node(state: AnalysisState) -> AnalysisState:
     if "No walking workouts are observed" in state["draft"]:
         return {"candidate": None, "inference_status": "local inference skipped: missing category abstention",
                 "execution_trace": state["execution_trace"] + ["llama: abstention"]}
-    candidate, status = local_completion(state["question"], state["draft"], state["evidence_ids"])
+    metrics = state["metrics"]
+    selected = _mentioned_categories(state["question"], metrics["observed_activities"])
+    structured = {
+        "input_rows": metrics["input_rows"], "unique_workouts": metrics["unique_workouts"],
+        "activities": {name: {k: v for k, v in metrics["activities"][name].items() if k != "evidence_ids"}
+                       for name in selected},
+        "comparisons": [item for item in metrics["comparisons"]
+                        if item["activity_a"] in selected and item["activity_b"] in selected],
+        "hrv_context": metrics["hrv_context"],
+    }
+    candidate, status = local_completion(state["question"], state["draft"], state["evidence_ids"], structured)
     return {"candidate": candidate, "inference_status": status,
             "execution_trace": state["execution_trace"] + ["llama: " + status]}
 
@@ -135,8 +152,24 @@ def _validator_node(state: AnalysisState) -> AnalysisState:
             candidate = None
         else:
             answer = candidate["answer"]
-            if ("HRV" in state["draft"] and "HRV" not in answer) or ("burden" in state["draft"] and "burden" not in answer):
+            if "HRV" in state["draft"] and "HRV" not in answer:
                 candidate = None
+            if "median HR signed difference" in state["draft"]:
+                relevant = [c for c in state["metrics"]["comparisons"]
+                            if c["activity_a"] in state["draft"] and c["activity_b"] in state["draft"]]
+                for comparison in relevant:
+                    activity_b = comparison["activity_b"]
+                    b_present = activity_b in answer.lower() or (activity_b == "transportation" and "commuting" in answer.lower())
+                    if not (comparison["activity_a"] in answer.lower() and b_present
+                            and ("median heart rate" in answer.lower() or "median hr" in answer.lower()
+                                 or "burden proxy" in answer.lower())):
+                        candidate = None
+                    if candidate is not None and "higher median heart rate" in answer.lower():
+                        second_name = activity_b if activity_b in answer.lower() else "commuting"
+                        first_mentioned = answer.lower().find(comparison["activity_a"]) < answer.lower().find(second_name)
+                        first_hr, second_hr = comparison["median_hr_bpm_a"], comparison["median_hr_bpm_b"]
+                        if first_hr is None or second_hr is None or not (first_hr > second_hr if first_mentioned else second_hr > first_hr):
+                            candidate = None
             if "No Polar" in state["draft"] and not re.search(r"\bno\b.{0,40}\bPolar\b", answer, re.I):
                 candidate = None
             if "No activity RMSSD" in state["draft"] and not re.search(r"\bno\b.{0,40}\bRMSSD\b", answer, re.I):
@@ -152,7 +185,7 @@ def _validator_node(state: AnalysisState) -> AnalysisState:
     if candidate is None:
         return {"answer": "[Deterministic fallback] " + state["draft"],
                 "execution_trace": state["execution_trace"] + ["evidence_validator: deterministic fallback"]}
-    return {"answer": candidate["answer"], "evidence_ids": candidate["evidence_ids"],
+    return {"answer": candidate["answer"] + "\n\nComputed evidence: " + state["draft"], "evidence_ids": candidate["evidence_ids"],
             "limitations": list(dict.fromkeys(state["limitations"] + candidate.get("limitations", []))),
             "execution_trace": state["execution_trace"] + ["evidence_validator: accepted"]}
 
