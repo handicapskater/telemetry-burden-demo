@@ -1,0 +1,74 @@
+{
+  "initial": {
+    "http_status": 200,
+    "response": {
+      "choices": [
+        {
+          "finish_reason": "stop",
+          "index": 0,
+          "message": {
+            "content": "{ \"episode_id\": \"row_01559\", \"summary\": \"The subject engaged in a 14-minute WHOOP-labeled Commuting workout on August 1, 2024. The workout's mean heart rate was 118.0 bpm, with a maximum of 149.0 bpm. The daily recovery HRV was 29.0 ms, which is 14.71% lower than the median of prior distinct recovery dates. The subject has a history of pelvic injury and reports using inline skates as a mobility aid. However, the vehicle type and seat position during the workout are unknown. The episode lacks direct evidence of pain, mechanical exposure, or episode-specific HRV measurements. \", \"measured_burden\": {\"physiological\": [\"mean_hr_bpm: 118.0\", \"max_hr_bpm: 149.0\", \"resting_hr_bpm: 52.0\", \"daily_recovery_hrv_ms: 29.0\"], \"mechanical\": []}, \"pain_association\": {\"interpretation\": \"Uncertain\", \"supporting_evidence\": [], \"conflicting_evidence\": [], \"alternative_explanations\": [\"The subject's history of pelvic injury and use of inline skates as a mobility aid may contribute to pain, but the lack of direct evidence and unknown vehicle type and seat position during the workout make it difficult to determine the relationship between pain and the episode.\"]}, \"psychological_component\": {\"interpretation\": \"Uncertain\", \"direct_evidence\": [], \"hypotheses\": [\"The subject's use of inline skates as a mobility aid may indicate a level of pain or discomfort that is not directly measured by the episode's telemetry.\"]}, \"confidence\": {\"level\": \"low\", \"basis\": \"The lack of direct evidence of pain, mechanical exposure, or episode-specific HRV measurements, as well as the unknown vehicle type and seat position during the workout, contribute to the uncertainty of the interpretation.\" , \"calibrated_probability\": null}, \"limitations\": [\"The subject's history of pelvic injury and use of inline skates as a mobility aid may not be directly related to the episode's telemetry.\"], \"conclusion\": \"The episode's telemetry does not provide sufficient evidence to determine the relationship between pain and the subject's activity. Further investigation is needed to understand the subject's pain experience and how it relates to their activity.\"}",
+            "role": "assistant"
+          }
+        }
+      ],
+      "created": 1793309825,
+      "model": "local",
+      "system_fingerprint": "b4404-0827b2c1",
+      "object": "chat.completion",
+      "usage": {
+        "completion_tokens": 491,
+        "prompt_tokens": 2681,
+        "total_tokens": 3172
+      },
+      "id": "chatcmpl-lKYYlEf0lophpi12mV22PfsWrp3kLITV",
+      "timings": {
+        "prompt_n": 1139,
+        "prompt_ms": 2866.896,
+        "prompt_per_token_ms": 2.517028972783143,
+        "prompt_per_second": 397.2937978915175,
+        "predicted_n": 491,
+        "predicted_ms": 14823.762,
+        "predicted_per_token_ms": 30.190961303462323,
+        "predicted_per_second": 33.12249616527842
+      }
+    },
+    "model_content": "{ \"episode_id\": \"row_01559\", \"summary\": \"The subject engaged in a 14-minute WHOOP-labeled Commuting workout on August 1, 2024. The workout's mean heart rate was 118.0 bpm, with a maximum of 149.0 bpm. The daily recovery HRV was 29.0 ms, which is 14.71% lower than the median of prior distinct recovery dates. The subject has a history of pelvic injury and reports using inline skates as a mobility aid. However, the vehicle type and seat position during the workout are unknown. The episode lacks direct evidence of pain, mechanical exposure, or episode-specific HRV measurements. \", \"measured_burden\": {\"physiological\": [\"mean_hr_bpm: 118.0\", \"max_hr_bpm: 149.0\", \"resting_hr_bpm: 52.0\", \"daily_recovery_hrv_ms: 29.0\"], \"mechanical\": []}, \"pain_association\": {\"interpretation\": \"Uncertain\", \"supporting_evidence\": [], \"conflicting_evidence\": [], \"alternative_explanations\": [\"The subject's history of pelvic injury and use of inline skates as a mobility aid may contribute to pain, but the lack of direct evidence and unknown vehicle type and seat position during the workout make it difficult to determine the relationship between pain and the episode.\"]}, \"psychological_component\": {\"interpretation\": \"Uncertain\", \"direct_evidence\": [], \"hypotheses\": [\"The subject's use of inline skates as a mobility aid may indicate a level of pain or discomfort that is not directly measured by the episode's telemetry.\"]}, \"confidence\": {\"level\": \"low\", \"basis\": \"The lack of direct evidence of pain, mechanical exposure, or episode-specific HRV measurements, as well as the unknown vehicle type and seat position during the workout, contribute to the uncertainty of the interpretation.\" , \"calibrated_probability\": null}, \"limitations\": [\"The subject's history of pelvic injury and use of inline skates as a mobility aid may not be directly related to the episode's telemetry.\"], \"conclusion\": \"The episode's telemetry does not provide sufficient evidence to determine the relationship between pain and the subject's activity. Further investigation is needed to understand the subject's pain experience and how it relates to their activity.\"}"
+  },
+  "retry": {
+    "http_status": 200,
+    "response": {
+      "choices": [
+        {
+          "finish_reason": "stop",
+          "index": 0,
+          "message": {
+            "content": "{\n  \"episode_id\": \"row_01559\",\n  \"summary\": \"Physiological and biomechanical analysis of a WHOOP Commuting workout\",\n  \"measured_burden\": {\n    \"physiological\": [\n      \"Mean HR: 118.0 bpm\",\n      \"Max HR: 149.0 bpm\",\n      \"Resting HR: 52.0 bpm\"\n    ],\n    \"mechanical\": []\n  },\n  \"pain_association\": {\n    \"interpretation\": \"Uncertain\",\n    \"supporting_evidence\": [],\n    \"conflicting_evidence\": [\n      \"HR is nonspecific and may not indicate pain\",\n      \"Daily HRV is not episode-specific and may not indicate pain\",\n      \"Mechanical exposure is absent and cannot be quantified\"\n    ],\n    \"alternative_explanations\": []\n  },\n  \"psychological_component\": {\n    \"interpretation\": \"Uncertain\",\n    \"direct_evidence\": [],\n    \"hypotheses\": []\n  },\n  \"confidence\": {\n    \"level\": \"low\",\n    \"basis\": \"Conflicting evidence and missing measurements\",\n    \"calibrated_probability\": null\n  },\n  \"limitations\": [\n    \"No verified vehicle type or seat position\",\n    \"No episode-specific pain rating\",\n    \"No episode-specific HRV (RMSSD and SDNN)\",\n    \"No accelerometer acceleration RMS, jerk, and shock events\",\n    \"No sensor location and seat-to-pelvis body-coupling model\"\n  ],\n  \"conclusion\": \"The analysis is inconclusive due to conflicting evidence and missing measurements.\"\n}",
+            "role": "assistant"
+          }
+        }
+      ],
+      "created": 1793309835,
+      "model": "local",
+      "system_fingerprint": "b4404-0827b2c1",
+      "object": "chat.completion",
+      "usage": {
+        "completion_tokens": 333,
+        "prompt_tokens": 2768,
+        "total_tokens": 3101
+      },
+      "id": "chatcmpl-yV8IcoVtat37JBcKvPOkDvp98GGhHcrF",
+      "timings": {
+        "prompt_n": 93,
+        "prompt_ms": 260.937,
+        "prompt_per_token_ms": 2.805774193548387,
+        "prompt_per_second": 356.4078685659757,
+        "predicted_n": 333,
+        "predicted_ms": 9945.619,
+        "predicted_per_token_ms": 29.866723723723727,
+        "predicted_per_second": 33.482078893229264
+      }
+    },
+    "model_content": "{\n  \"episode_id\": \"row_01559\",\n  \"summary\": \"Physiological and biomechanical analysis of a WHOOP Commuting workout\",\n  \"measured_burden\": {\n    \"physiological\": [\n      \"Mean HR: 118.0 bpm\",\n      \"Max HR: 149.0 bpm\",\n      \"Resting HR: 52.0 bpm\"\n    ],\n    \"mechanical\": []\n  },\n  \"pain_association\": {\n    \"interpretation\": \"Uncertain\",\n    \"supporting_evidence\": [],\n    \"conflicting_evidence\": [\n      \"HR is nonspecific and may not indicate pain\",\n      \"Daily HRV is not episode-specific and may not indicate pain\",\n      \"Mechanical exposure is absent and cannot be quantified\"\n    ],\n    \"alternative_explanations\": []\n  },\n  \"psychological_component\": {\n    \"interpretation\": \"Uncertain\",\n    \"direct_evidence\": [],\n    \"hypotheses\": []\n  },\n  \"confidence\": {\n    \"level\": \"low\",\n    \"basis\": \"Conflicting evidence and missing measurements\",\n    \"calibrated_probability\": null\n  },\n  \"limitations\": [\n    \"No verified vehicle type or seat position\",\n    \"No episode-specific pain rating\",\n    \"No episode-specific HRV (RMSSD and SDNN)\",\n    \"No accelerometer acceleration RMS, jerk, and shock events\",\n    \"No sensor location and seat-to-pelvis body-coupling model\"\n  ],\n  \"conclusion\": \"The analysis is inconclusive due to conflicting evidence and missing measurements.\"\n}"
+  }
+}

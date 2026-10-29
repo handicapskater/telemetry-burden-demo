@@ -1,0 +1,104 @@
+{
+  "episode": {
+    "episode_id": "row_01559",
+    "date": "2024-08-01",
+    "start_timestamp": "2024-08-01 19:18:00+00:00",
+    "end_timestamp": "2024-08-01T19:32:59+00:00",
+    "activity": "Commuting",
+    "vehicle_type": null,
+    "duration_seconds": 840
+  },
+  "subject_context": {
+    "pelvic_injury_history": true,
+    "pain_reported": null,
+    "mobility_aid": "inline skates",
+    "provenance": "User-provided general history; no pain report temporally linked to this episode"
+  },
+  "physiology": {
+    "mean_hr_bpm": 118.0,
+    "max_hr_bpm": 149.0,
+    "resting_hr_bpm": 52.0,
+    "daily_recovery_hrv_ms": 29.0,
+    "rmssd_ms": null,
+    "sdnn_ms": null
+  },
+  "mechanics": {
+    "acceleration_rms_g": null,
+    "jerk_g_per_s": null,
+    "shock_events_per_minute": null
+  },
+  "baseline_comparison": {
+    "same_day_resting_hr_bpm": 52.0,
+    "prior_7_day_daily_recovery_hrv_median_ms": 34.0,
+    "prior_7_day_resting_hr_median_bpm": 58.0,
+    "prior_recovery_dates": [
+      "2024-07-26",
+      "2024-07-27",
+      "2024-07-31"
+    ],
+    "baseline_evidence_ids": [
+      "row_01552",
+      "row_01553",
+      "row_01555"
+    ],
+    "baseline_sample_days": 3,
+    "comparability": "Workout HR versus resting HR is cross-context; daily recovery HRV is not episode HRV"
+  },
+  "data_provenance": {
+    "episode_source": "WHOOP",
+    "source_row": 1559,
+    "source_columns": {
+      "duration_minutes": "duration_min",
+      "distance_miles": "metrics.distance_miles",
+      "heart_rate.mean_bpm": "metrics.average_hr_bpm_whoop",
+      "heart_rate.max_bpm": "metrics.max_hr_bpm_whoop",
+      "heart_rate.resting_bpm": "metrics.resting_hr_bpm",
+      "hrv.hrv_ms": "metrics.hrv_ms",
+      "timestamp": "start_time_whoop"
+    },
+    "original_units": {
+      "duration_minutes": "minutes",
+      "distance_miles": "miles",
+      "heart_rate": "bpm",
+      "hrv": "ms",
+      "start_delta_min": "minutes"
+    },
+    "original_timestamps": {
+      "whoop_start": "2024-08-01 19:18:00+00:00",
+      "whoop_end": "2024-08-01T19:32:59+00:00",
+      "strava_start": null,
+      "whoop_date": "2024-08-01",
+      "strava_date": null
+    },
+    "join": {
+      "likely_match": false,
+      "start_delta_min": null,
+      "whoop_candidate_count": 1,
+      "strava_candidate_count": 0,
+      "ambiguous": false
+    },
+    "daily_hrv_context": "WHOOP daily recovery; not an activity HRV measurement",
+    "duration_seconds": "Derived from source duration_min × 60; timestamp span differs",
+    "baseline_evidence_ids": [
+      "row_01552",
+      "row_01553",
+      "row_01555"
+    ],
+    "subject_context": "User-provided report; not measured in CSV"
+  },
+  "missing_measurements": [
+    "Verified vehicle type and seat position",
+    "Episode-specific pain rating",
+    "Episode-specific HRV (RMSSD and SDNN)",
+    "Accelerometer acceleration RMS, jerk, and shock events",
+    "Sensor location and seat-to-pelvis body-coupling model",
+    "Sample-level HR and acceleration time series",
+    "Exertion-matched baseline"
+  ],
+  "evidence_ids": [
+    "row_01559",
+    "row_01552",
+    "row_01553",
+    "row_01555"
+  ]
+}

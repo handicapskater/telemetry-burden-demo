@@ -1,0 +1,36 @@
+{
+  "http_status": 200,
+  "response": {
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "message": {
+          "content": "{\n  \"question\": \"Analyze this episode for physiological, biomechanical, and potential pain-associated burden.\",\n  \"observed_physiological_burden\": {\n    \"findings\": [\n      \"Mean HR: 118.0 bpm\",\n      \"Max HR: 149.0 bpm\",\n      \"Resting HR: 52.0 bpm\",\n      \"Daily recovery HRV: 29.0 ms\"\n    ],\n    \"evidence_ids\": [\"row_01559\"]\n  },\n  \"biomechanical_interpretation\": {\n    \"mechanism\": \"Commuting\",\n    \"supporting_evidence\": [],\n    \"alternative_explanations\": [\n      \"Vehicle type unknown\",\n      \"Distance unknown\",\n      \"Pain unknown\",\n      \"Mobility mode unknown\"\n    ]\n  },\n  \"pain_association\": {\n    \"interpretation\": \"Uncertain\",\n    \"evidence_strength\": \"insufficient\",\n    \"confidence\": \"low\",\n    \"reasoning\": \"No pain report temporally linked to this episode\"\n  },\n  \"psychological_component\": {\n    \"potential_mechanisms\": [\n      \"Anticipation of pain\",\n      \"Fear of recurring pain\",\n      \"Transportation stress\",\n      \"Reduced perceived control\"\n    ],\n    \"direct_evidence\": [],\n    \"limitations\": [\n      \"No self-reported pain or psychological data available\"\n    ]\n  },\n  \"mobility_aid_implications\": {\n    \"functional_interpretation\": \"Unknown\",\n    \"supporting_evidence\": [],\n    \"limitations\": [\n      \"No information on mobility aid used during episode\"\n    ]\n  },\n  \"uncertainty\": {\n    \"missing_data\": [\n      \"Verified vehicle type and seat position\",\n      \"Episode-specific pain rating\",\n      \"Episode-specific HRV (RMSSD and SDNN)\",\n      \"Accelerometer acceleration RMS, jerk, and shock events\",\n      \"Sensor location and seat-to-pelvis body-coupling model\",\n      \"Sample-level HR and acceleration time series\",\n      \"Exertion-matched baseline\"\n    ],\n    \"confounders\": [\n      \"Cross-context comparison of workout HR and resting HR\",\n      \"Daily recovery HRV not an event-specific change\"\n    ],\n    \"causal_limitations\": [\n      \"Mechanical calculations unavailable due to lack of accelerometer samples\"\n    ]\n  },\n  \"conclusion\": \"This episode's physiological burden is characterized by elevated HR and daily recovery HRV. However, the biomechanical mechanism is unknown due to lack of information on vehicle type, distance, pain, and mobility mode. The potential pain-associated burden is uncertain due to lack of self-reported pain or psychological data. Further investigation is needed to determine the relationship between mechanical loading, autonomic responses, and possible psychological stress.\"\n}",
+          "role": "assistant"
+        }
+      }
+    ],
+    "created": 1793309703,
+    "model": "local",
+    "system_fingerprint": "b4404-0827b2c1",
+    "object": "chat.completion",
+    "usage": {
+      "completion_tokens": 578,
+      "prompt_tokens": 2886,
+      "total_tokens": 3464
+    },
+    "id": "chatcmpl-EIuh3Dovb34zg04VruEeNtoMtUeyDVYL",
+    "timings": {
+      "prompt_n": 1300,
+      "prompt_ms": 3351.8,
+      "prompt_per_token_ms": 2.5783076923076926,
+      "prompt_per_second": 387.851303777075,
+      "predicted_n": 578,
+      "predicted_ms": 18197.722,
+      "predicted_per_token_ms": 31.483948096885815,
+      "predicted_per_second": 31.76221727093094
+    }
+  },
+  "model_content": "{\n  \"question\": \"Analyze this episode for physiological, biomechanical, and potential pain-associated burden.\",\n  \"observed_physiological_burden\": {\n    \"findings\": [\n      \"Mean HR: 118.0 bpm\",\n      \"Max HR: 149.0 bpm\",\n      \"Resting HR: 52.0 bpm\",\n      \"Daily recovery HRV: 29.0 ms\"\n    ],\n    \"evidence_ids\": [\"row_01559\"]\n  },\n  \"biomechanical_interpretation\": {\n    \"mechanism\": \"Commuting\",\n    \"supporting_evidence\": [],\n    \"alternative_explanations\": [\n      \"Vehicle type unknown\",\n      \"Distance unknown\",\n      \"Pain unknown\",\n      \"Mobility mode unknown\"\n    ]\n  },\n  \"pain_association\": {\n    \"interpretation\": \"Uncertain\",\n    \"evidence_strength\": \"insufficient\",\n    \"confidence\": \"low\",\n    \"reasoning\": \"No pain report temporally linked to this episode\"\n  },\n  \"psychological_component\": {\n    \"potential_mechanisms\": [\n      \"Anticipation of pain\",\n      \"Fear of recurring pain\",\n      \"Transportation stress\",\n      \"Reduced perceived control\"\n    ],\n    \"direct_evidence\": [],\n    \"limitations\": [\n      \"No self-reported pain or psychological data available\"\n    ]\n  },\n  \"mobility_aid_implications\": {\n    \"functional_interpretation\": \"Unknown\",\n    \"supporting_evidence\": [],\n    \"limitations\": [\n      \"No information on mobility aid used during episode\"\n    ]\n  },\n  \"uncertainty\": {\n    \"missing_data\": [\n      \"Verified vehicle type and seat position\",\n      \"Episode-specific pain rating\",\n      \"Episode-specific HRV (RMSSD and SDNN)\",\n      \"Accelerometer acceleration RMS, jerk, and shock events\",\n      \"Sensor location and seat-to-pelvis body-coupling model\",\n      \"Sample-level HR and acceleration time series\",\n      \"Exertion-matched baseline\"\n    ],\n    \"confounders\": [\n      \"Cross-context comparison of workout HR and resting HR\",\n      \"Daily recovery HRV not an event-specific change\"\n    ],\n    \"causal_limitations\": [\n      \"Mechanical calculations unavailable due to lack of accelerometer samples\"\n    ]\n  },\n  \"conclusion\": \"This episode's physiological burden is characterized by elevated HR and daily recovery HRV. However, the biomechanical mechanism is unknown due to lack of information on vehicle type, distance, pain, and mobility mode. The potential pain-associated burden is uncertain due to lack of self-reported pain or psychological data. Further investigation is needed to determine the relationship between mechanical loading, autonomic responses, and possible psychological stress.\"\n}"
+}

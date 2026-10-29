@@ -1,0 +1,57 @@
+{
+  "passed": true,
+  "checks": {
+    "structured_json": {
+      "passed": true,
+      "detail": ""
+    },
+    "episode_identity": {
+      "passed": true,
+      "detail": ""
+    },
+    "evidence_ids": {
+      "passed": true,
+      "detail": "cited=[]"
+    },
+    "numerical_claims": {
+      "passed": true,
+      "detail": "unsupported=[]"
+    },
+    "metric_value_alignment": {
+      "passed": true,
+      "detail": ""
+    },
+    "missing_mechanics": {
+      "passed": true,
+      "detail": "No measured mechanical burden can be listed"
+    },
+    "no_measured_pelvic_force": {
+      "passed": true,
+      "detail": ""
+    },
+    "no_psychological_diagnosis": {
+      "passed": true,
+      "detail": ""
+    },
+    "no_objective_pain_claim": {
+      "passed": true,
+      "detail": ""
+    },
+    "no_unverified_vehicle": {
+      "passed": true,
+      "detail": ""
+    },
+    "conflicting_evidence": {
+      "passed": true,
+      "detail": ""
+    },
+    "missing_evidence": {
+      "passed": true,
+      "detail": ""
+    },
+    "confidence_calibration": {
+      "passed": true,
+      "detail": ""
+    }
+  }
+}

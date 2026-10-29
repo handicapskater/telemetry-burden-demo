@@ -13,6 +13,7 @@ from fastapi import FastAPI, File, HTTPException, UploadFile
 from app.schemas import (
     AnalysisResponse, AskRequest, AskResponse, HealthResponse, IngestResponse,
     MetricsResponse, QualityReport, TelemetryRecord, TelemetryResponse,
+    EpisodePreviewResponse, EpisodeAuditResponse,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -116,3 +117,26 @@ def ask(request: AskRequest) -> AskResponse:
     result = answer_question(request.question, request.session_id, [r.model_dump() for r in records])
     result["latency_ms"] = round((time.perf_counter() - started) * 1000, 2)
     return AskResponse.model_validate(result)
+
+
+@app.get("/episode", response_model=EpisodePreviewResponse)
+def episode_preview() -> EpisodePreviewResponse:
+    from app.episode import build_episode_evidence
+    try:
+        evidence, calculations = build_episode_evidence([r.model_dump() for r in _records()])
+    except ValueError as exc:
+        raise HTTPException(422, str(exc)) from exc
+    return EpisodePreviewResponse(evidence=evidence, calculations=calculations)
+
+
+@app.post("/episode/analyze", response_model=EpisodeAuditResponse)
+def episode_analyze() -> EpisodeAuditResponse:
+    import httpx
+    from app.episode import analyze_episode
+    try:
+        state = analyze_episode([r.model_dump() for r in _records()])
+        return EpisodeAuditResponse.model_validate(state)
+    except ValueError as exc:
+        raise HTTPException(422, str(exc)) from exc
+    except (httpx.HTTPError, KeyError, IndexError, TypeError) as exc:
+        raise HTTPException(503, f"Local Llama inference unavailable: {type(exc).__name__}") from exc

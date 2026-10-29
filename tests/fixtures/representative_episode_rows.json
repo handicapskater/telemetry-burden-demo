@@ -1,0 +1,268 @@
+[
+  {
+    "record_id": "row_01552",
+    "source_row": 1552,
+    "source": "WHOOP",
+    "sources": [
+      "WHOOP"
+    ],
+    "original_ids": {
+      "whoop": null,
+      "strava": null
+    },
+    "original_sources": {
+      "whoop": "whoop_workout_event",
+      "strava": null
+    },
+    "activity": "skating",
+    "original_activities": {
+      "whoop": "Inline Skating",
+      "strava": null,
+      "strava_type": null
+    },
+    "timestamp": "2024-07-26 20:49:26+00:00",
+    "original_timestamps": {
+      "whoop_start": "2024-07-26 20:49:26+00:00",
+      "whoop_end": "2024-07-26T23:47:49+00:00",
+      "strava_start": null,
+      "whoop_date": "2024-07-26",
+      "strava_date": null
+    },
+    "duration_minutes": 178.0,
+    "distance_miles": null,
+    "heart_rate": {
+      "mean_bpm": 105.0,
+      "max_bpm": 154.0,
+      "resting_bpm": 58.0
+    },
+    "hrv": {
+      "hrv_ms": 24.0,
+      "rmssd_ms": null,
+      "sdnn_ms": null,
+      "context": "WHOOP daily recovery; not an activity HRV measurement"
+    },
+    "join": {
+      "likely_match": false,
+      "start_delta_min": null,
+      "whoop_candidate_count": 1,
+      "strava_candidate_count": 0,
+      "ambiguous": false
+    },
+    "source_columns": {
+      "duration_minutes": "duration_min",
+      "distance_miles": "metrics.distance_miles",
+      "heart_rate.mean_bpm": "metrics.average_hr_bpm_whoop",
+      "heart_rate.max_bpm": "metrics.max_hr_bpm_whoop",
+      "heart_rate.resting_bpm": "metrics.resting_hr_bpm",
+      "hrv.hrv_ms": "metrics.hrv_ms",
+      "timestamp": "start_time_whoop"
+    },
+    "original_units": {
+      "duration_minutes": "minutes",
+      "distance_miles": "miles",
+      "heart_rate": "bpm",
+      "hrv": "ms",
+      "start_delta_min": "minutes"
+    }
+  },
+  {
+    "record_id": "row_01553",
+    "source_row": 1553,
+    "source": "WHOOP",
+    "sources": [
+      "WHOOP",
+      "Strava"
+    ],
+    "original_ids": {
+      "whoop": null,
+      "strava": "11990802175"
+    },
+    "original_sources": {
+      "whoop": "whoop_workout_event",
+      "strava": "strava_activity"
+    },
+    "activity": "skating",
+    "original_activities": {
+      "whoop": "Inline Skating",
+      "strava": "Night Inline Skate",
+      "strava_type": "Inline Skate"
+    },
+    "timestamp": "2024-07-27 20:46:17+00:00",
+    "original_timestamps": {
+      "whoop_start": "2024-07-27 20:46:17+00:00",
+      "whoop_end": "2024-07-27T23:06:59+00:00",
+      "strava_start": "2024-07-27 03:49:29+00:00",
+      "whoop_date": "2024-07-27",
+      "strava_date": "2024-07-27"
+    },
+    "duration_minutes": 140.0,
+    "distance_miles": 17.96,
+    "heart_rate": {
+      "mean_bpm": 118.0,
+      "max_bpm": 164.0,
+      "resting_bpm": 58.0
+    },
+    "hrv": {
+      "hrv_ms": 34.0,
+      "rmssd_ms": null,
+      "sdnn_ms": null,
+      "context": "WHOOP daily recovery; not an activity HRV measurement"
+    },
+    "join": {
+      "likely_match": false,
+      "start_delta_min": 1016.8,
+      "whoop_candidate_count": 2,
+      "strava_candidate_count": 1,
+      "ambiguous": true
+    },
+    "source_columns": {
+      "duration_minutes": "duration_min",
+      "distance_miles": "metrics.distance_miles",
+      "heart_rate.mean_bpm": "metrics.average_hr_bpm_whoop",
+      "heart_rate.max_bpm": "metrics.max_hr_bpm_whoop",
+      "heart_rate.resting_bpm": "metrics.resting_hr_bpm",
+      "hrv.hrv_ms": "metrics.hrv_ms",
+      "timestamp": "start_time_whoop"
+    },
+    "original_units": {
+      "duration_minutes": "minutes",
+      "distance_miles": "miles",
+      "heart_rate": "bpm",
+      "hrv": "ms",
+      "start_delta_min": "minutes"
+    }
+  },
+  {
+    "record_id": "row_01555",
+    "source_row": 1555,
+    "source": "WHOOP",
+    "sources": [
+      "WHOOP",
+      "Strava"
+    ],
+    "original_ids": {
+      "whoop": null,
+      "strava": "12030738947"
+    },
+    "original_sources": {
+      "whoop": "whoop_workout_event",
+      "strava": "strava_activity"
+    },
+    "activity": "gaming",
+    "original_activities": {
+      "whoop": "Gaming",
+      "strava": "Afternoon Workout",
+      "strava_type": "Workout"
+    },
+    "timestamp": "2024-07-31 13:09:00+00:00",
+    "original_timestamps": {
+      "whoop_start": "2024-07-31 13:09:00+00:00",
+      "whoop_end": "2024-07-31T13:26:59+00:00",
+      "strava_start": "2024-07-31 20:09:00+00:00",
+      "whoop_date": "2024-07-31",
+      "strava_date": "2024-07-31"
+    },
+    "duration_minutes": 17.0,
+    "distance_miles": 0.0,
+    "heart_rate": {
+      "mean_bpm": 104.0,
+      "max_bpm": 154.0,
+      "resting_bpm": 56.0
+    },
+    "hrv": {
+      "hrv_ms": 41.0,
+      "rmssd_ms": null,
+      "sdnn_ms": null,
+      "context": "WHOOP daily recovery; not an activity HRV measurement"
+    },
+    "join": {
+      "likely_match": false,
+      "start_delta_min": 420.0,
+      "whoop_candidate_count": 2,
+      "strava_candidate_count": 2,
+      "ambiguous": true
+    },
+    "source_columns": {
+      "duration_minutes": "duration_min",
+      "distance_miles": "metrics.distance_miles",
+      "heart_rate.mean_bpm": "metrics.average_hr_bpm_whoop",
+      "heart_rate.max_bpm": "metrics.max_hr_bpm_whoop",
+      "heart_rate.resting_bpm": "metrics.resting_hr_bpm",
+      "hrv.hrv_ms": "metrics.hrv_ms",
+      "timestamp": "start_time_whoop"
+    },
+    "original_units": {
+      "duration_minutes": "minutes",
+      "distance_miles": "miles",
+      "heart_rate": "bpm",
+      "hrv": "ms",
+      "start_delta_min": "minutes"
+    }
+  },
+  {
+    "record_id": "row_01559",
+    "source_row": 1559,
+    "source": "WHOOP",
+    "sources": [
+      "WHOOP"
+    ],
+    "original_ids": {
+      "whoop": null,
+      "strava": null
+    },
+    "original_sources": {
+      "whoop": "whoop_workout_event",
+      "strava": null
+    },
+    "activity": "transportation",
+    "original_activities": {
+      "whoop": "Commuting",
+      "strava": null,
+      "strava_type": null
+    },
+    "timestamp": "2024-08-01 19:18:00+00:00",
+    "original_timestamps": {
+      "whoop_start": "2024-08-01 19:18:00+00:00",
+      "whoop_end": "2024-08-01T19:32:59+00:00",
+      "strava_start": null,
+      "whoop_date": "2024-08-01",
+      "strava_date": null
+    },
+    "duration_minutes": 14.0,
+    "distance_miles": null,
+    "heart_rate": {
+      "mean_bpm": 118.0,
+      "max_bpm": 149.0,
+      "resting_bpm": 52.0
+    },
+    "hrv": {
+      "hrv_ms": 29.0,
+      "rmssd_ms": null,
+      "sdnn_ms": null,
+      "context": "WHOOP daily recovery; not an activity HRV measurement"
+    },
+    "join": {
+      "likely_match": false,
+      "start_delta_min": null,
+      "whoop_candidate_count": 1,
+      "strava_candidate_count": 0,
+      "ambiguous": false
+    },
+    "source_columns": {
+      "duration_minutes": "duration_min",
+      "distance_miles": "metrics.distance_miles",
+      "heart_rate.mean_bpm": "metrics.average_hr_bpm_whoop",
+      "heart_rate.max_bpm": "metrics.max_hr_bpm_whoop",
+      "heart_rate.resting_bpm": "metrics.resting_hr_bpm",
+      "hrv.hrv_ms": "metrics.hrv_ms",
+      "timestamp": "start_time_whoop"
+    },
+    "original_units": {
+      "duration_minutes": "minutes",
+      "distance_miles": "miles",
+      "heart_rate": "bpm",
+      "hrv": "ms",
+      "start_delta_min": "minutes"
+    }
+  }
+]

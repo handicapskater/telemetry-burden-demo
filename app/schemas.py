@@ -176,4 +176,19 @@ class IngestResponse(BaseModel):
     records_saved: int
 
 
+class EpisodePreviewResponse(BaseModel):
+    evidence: dict[str, Any]
+    calculations: dict[str, Any]
+
+
+class EpisodeAuditResponse(EpisodePreviewResponse):
+    request: dict[str, Any]
+    raw_response: dict[str, Any]
+    retry_request: dict[str, Any] | None = None
+    retry_raw_response: dict[str, Any] | None = None
+    candidate: dict[str, Any] | None
+    validation: dict[str, Any]
+    execution_trace: list[str]
+
+
 AskResponse.model_rebuild()

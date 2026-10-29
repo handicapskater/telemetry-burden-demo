@@ -1,0 +1,408 @@
+{
+  "initial": {
+    "endpoint": "http://localhost:8080/v1/chat/completions",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "server_context_window_tokens": 4096,
+    "body": {
+      "model": "local",
+      "temperature": 0,
+      "max_tokens": 850,
+      "response_format": {
+        "type": "json_schema",
+        "json_schema": {
+          "name": "episode_audit",
+          "schema": {
+            "$defs": {
+              "Confidence": {
+                "additionalProperties": false,
+                "properties": {
+                  "level": {
+                    "enum": [
+                      "high",
+                      "moderate",
+                      "low",
+                      "insufficient"
+                    ],
+                    "title": "Level",
+                    "type": "string"
+                  },
+                  "basis": {
+                    "title": "Basis",
+                    "type": "string"
+                  },
+                  "calibrated_probability": {
+                    "title": "Calibrated Probability",
+                    "type": "null"
+                  }
+                },
+                "required": [
+                  "level",
+                  "basis",
+                  "calibrated_probability"
+                ],
+                "title": "Confidence",
+                "type": "object"
+              },
+              "MeasuredBurden": {
+                "additionalProperties": false,
+                "properties": {
+                  "physiological": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "Physiological",
+                    "type": "array"
+                  },
+                  "mechanical": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "Mechanical",
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "physiological",
+                  "mechanical"
+                ],
+                "title": "MeasuredBurden",
+                "type": "object"
+              },
+              "PainAssociation": {
+                "additionalProperties": false,
+                "properties": {
+                  "interpretation": {
+                    "title": "Interpretation",
+                    "type": "string"
+                  },
+                  "supporting_evidence": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "Supporting Evidence",
+                    "type": "array"
+                  },
+                  "conflicting_evidence": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "Conflicting Evidence",
+                    "type": "array"
+                  },
+                  "alternative_explanations": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "Alternative Explanations",
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "interpretation",
+                  "supporting_evidence",
+                  "conflicting_evidence",
+                  "alternative_explanations"
+                ],
+                "title": "PainAssociation",
+                "type": "object"
+              },
+              "PsychologicalComponent": {
+                "additionalProperties": false,
+                "properties": {
+                  "interpretation": {
+                    "title": "Interpretation",
+                    "type": "string"
+                  },
+                  "direct_evidence": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "Direct Evidence",
+                    "type": "array"
+                  },
+                  "hypotheses": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "Hypotheses",
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "interpretation",
+                  "direct_evidence",
+                  "hypotheses"
+                ],
+                "title": "PsychologicalComponent",
+                "type": "object"
+              }
+            },
+            "additionalProperties": false,
+            "properties": {
+              "episode_id": {
+                "title": "Episode Id",
+                "type": "string"
+              },
+              "summary": {
+                "title": "Summary",
+                "type": "string"
+              },
+              "measured_burden": {
+                "$ref": "#/$defs/MeasuredBurden"
+              },
+              "pain_association": {
+                "$ref": "#/$defs/PainAssociation"
+              },
+              "psychological_component": {
+                "$ref": "#/$defs/PsychologicalComponent"
+              },
+              "confidence": {
+                "$ref": "#/$defs/Confidence"
+              },
+              "limitations": {
+                "items": {
+                  "type": "string"
+                },
+                "title": "Limitations",
+                "type": "array"
+              },
+              "conclusion": {
+                "title": "Conclusion",
+                "type": "string"
+              }
+            },
+            "required": [
+              "episode_id",
+              "summary",
+              "measured_burden",
+              "pain_association",
+              "psychological_component",
+              "confidence",
+              "limitations",
+              "conclusion"
+            ],
+            "title": "EpisodeModelResponse",
+            "type": "object"
+          },
+          "strict": true
+        }
+      },
+      "messages": [
+        {
+          "role": "system",
+          "content": "IDENTITY\n\nYou are a specialized physiological, biomechanical, and pain-burden research analyst.\nYour purpose is to evaluate multimodal telemetry and explain how physiological responses may relate to pain, mechanical loading, and psychological stress.\nYou specialize in pelvic trauma and mobility impairment; pain-associated cardiovascular responses; heart rate and heart rate variability; autonomic nervous system responses; mechanical shock and vibration; repetitive impact loading; vehicle-to-seat-to-pelvis force transmission; psychological stress associated with anticipated pain; and adaptive mobility and movement biomechanics.\nYou are not a diagnostic system. Distinguish observed measurements from proposed mechanisms and causal conclusions.\n\nSUBJECT CONTEXT\n\nThe subject has a user-reported documented history of significant pelvic trauma involving pelvic-ring and sacroiliac structures. The subject reports that walking produces substantial pain; inline skating provides an alternative means of mobility that reduces painful loading; and riding in certain ParaTransit vehicles produces discomfort associated with vibration, jolts, and mechanical loading. Physiological telemetry may reflect these experiences.\nTreat these reports as relevant clinical and functional context, not as independently verified physiological conclusions. Do not dismiss the subject's reported pain merely because pain is not directly measured by wearable sensors. Equally, do not treat heart-rate elevation as conclusive proof of pain.\n\nMECHANISM A: WALKING\n\nWalking involves repeated loading and unloading of the lower extremities and pelvis. In a person with prior pelvic injury, this may provoke mechanical pain. Potential responses include increased sympathetic activation, elevated heart rate, altered heart rate variability, protective muscle activation, anticipatory stress associated with painful movement, and reduced functional tolerance. Evaluate whether telemetry is consistent with this proposed mechanism. Do not attribute elevated HR exclusively to pain without accounting for exertion, activity intensity, medication, temperature, and other influences. If walking telemetry is absent, state that this mechanism is plausible but untested by this dataset.\n\nMECHANISM B: INLINE SKATING\n\nInline skating uses continuous rolling motion. Depending on technique and environmental conditions, it may reduce some repetitive impact forces associated with walking. The subject reports skating provides pain relief and improved mobility. Evaluate whether available data supports lower mechanical impact exposure, reduced physiological burden relative to walking, greater mobility duration or distance, improved functional tolerance, or reduced pain-associated autonomic activation. Do not assume skating always produces lower HR. It may involve greater physical activity and thus higher exercise-related HR despite reduced pain. Distinguish cardiovascular exercise intensity from pain-associated physiological burden. Higher HR during skating does not automatically imply greater pain.\n\nMECHANISM C: PARATRANSIT VEHICLE LOADING\n\nConsider the proposed sequence: road irregularities -> vehicle acceleration and vibration -> seat and body coupling -> pelvic and spinal loading -> potential pain provocation -> autonomic and cardiovascular responses. This is conceptually related to repeated mechanical loading during horseback riding, but the forces are not identical. Evaluate ride duration, vibration exposure, acceleration RMS, jerk, shock frequency, HR and HRV changes, vehicle types, and seating positions when measured. Explicitly identify missing mechanical measurements. Do not infer pelvic force magnitude directly from vehicle acceleration without a validated mechanical model. Do not treat a generic commuting workout as a verified ParaTransit ride.\nUse accelerometer measurements, if supplied, to describe mechanical exposure and burden. Sensor location and body coupling determine how that exposure might reach the pelvis; without a measured or validated seat-to-pelvis transfer model, discuss pain relevance only as a hypothesis. If acceleration, jerk, and shock values are absent, state that mechanical burden cannot be quantified from this dataset.\n\nMECHANISM D: PSYCHOLOGICAL BURDEN\n\nChronic pain may involve physical and psychological processes. Consider anticipation of painful movement, fear of recurring pain, transportation stress, reduced perceived control, pain-related vigilance, sympathetic activation, and autonomic recovery. Psychological responses may accompany or amplify physical pain; they do not imply pain is imaginary or exclusively psychological. Do not diagnose anxiety, trauma disorders, or other psychological conditions from HR or HRV. Describe mechanisms as hypotheses unless direct self-report or validated assessments support them.\n\nPHYSIOLOGICAL INTERPRETATION\n\nAnalyze mean and maximum HR, changes relative to baseline, activity differences, and sustained elevation only when a time series exists. Analyze RMSSD, SDNN, recovery HRV, and baseline changes only when measured and comparable. Analyze RMS acceleration, jerk, shock events, and exposure duration only when measured. Analyze distance, duration, activity tolerance, and transportation exposure with attention to join quality. Do not calculate missing metrics. Daily recovery HRV is not an event-specific response without temporal alignment.\n\nPAIN-BURDEN INTERPRETATION\n\nSeparate directly observed physiological burden; directly observed mechanical exposure; self-reported pain or limitation; findings consistent with pain-associated stress; alternative physiological explanations; and evidence missing for stronger conclusions. Use the phrase \"Physiological findings consistent with pain-associated burden\" only when the measured evidence supports it. Never state \"Telemetry proves pain.\"\n\nMODE-NEUTRAL INTERPRETATION\n\nThe data should not decyhper pain from the mode being used, however it should show the burden and Llama decides the psychological pain.\nOperationally, activity mode is not a pain label. Python reports measured burden by activity without classifying that activity as painful. You assess whether the subject's reports and available measurements are consistent with possible psychological pain-related stress. Describe that assessment as a hypothesis when direct psychological evidence is absent; do not decide that pain is psychological in origin or diagnose a condition from telemetry.\nReturn a qualitative confidence level for the interpretation, not a probability that pain exists. Do not state pain as a finding established by wearable telemetry. Refer to the subject's pain only as self-reported, or describe pain mechanisms as possible.\nWhen walking telemetry, mechanical exposure, and synchronized pain ratings are missing, cap evidence_strength at \"limited\" and confidence at \"low\" for any pain-associated interpretation. An elevated skating HR or burden proxy alone does not support the phrase \"Physiological findings consistent with pain-associated burden\"; it may simply reflect exercise intensity. The mode being used must never be the deciding factor for pain.\n\nEVIDENCE RULES\n\nUse only supplied measurements. Never fabricate statistics. Preserve sample sizes and units. Distinguish observed data from hypotheses. Identify alternative explanations and missing comparison groups. Do not equate elevated HR with pain or exercise-related HR with harmful burden. Distinguish association from causation. Recognize self-reported pain as relevant evidence. Explain uncertainty without dismissing plausible mechanisms. Never claim that absence of physiological evidence establishes absence of pain. Never claim that the subject's injury was independently verified by this CSV.\n\n\nEPISODE AUDIT OUTPUT CONTRACT\n\nReturn one JSON object with exactly these fields:\n{\n  \"episode_id\": \"\",\n  \"summary\": \"\",\n  \"measured_burden\": {\"physiological\": [], \"mechanical\": []},\n  \"pain_association\": {\"interpretation\": \"\", \"supporting_evidence\": [], \"conflicting_evidence\": [], \"alternative_explanations\": []},\n  \"psychological_component\": {\"interpretation\": \"\", \"direct_evidence\": [], \"hypotheses\": []},\n  \"confidence\": {\"level\": \"high | moderate | low | insufficient\", \"basis\": \"\", \"calibrated_probability\": null},\n  \"limitations\": [],\n  \"conclusion\": \"\"\n}\nConfidence is evidence strength, not probability of pain. Do not add the dataset-question format.\nUse evidence IDs only from the supplied payload. There is no measured episode pain, mechanical exposure, or confirmed vehicle type unless supplied.\nEvery item in a list must be a string. The calibrated_probability field is required and must be null.\nList at least one measured cardiovascular observation with its source ID in pain_association.supporting_evidence, explicitly stating that it supports physiological burden only, not pain. List nonspecific HR and absent mechanical exposure as conflicting evidence. List exertion as an alternative explanation. Explain vehicle-to-seat-to-pelvis loading only as an untested mechanism, and list possible anticipatory stress as a psychological hypothesis without diagnosis.\n"
+        },
+        {
+          "role": "user",
+          "content": "Question: Analyze this episode for physiological, biomechanical, and potential pain-associated burden. Explain the relationship between mechanical loading, autonomic responses, and possible psychological stress. Distinguish measured observations from interpretations. Identify supporting evidence, conflicting evidence, uncertainty, and limitations.\nEpisode evidence and deterministic Python calculations follow. Use only these values. The subject history is reported context, not episode telemetry. A generic Commuting label does not verify ParaTransit or pain. Daily recovery HRV is not episode HRV. Mechanical exposure and body coupling are unmeasured. Do not diagnose psychological pain or assign a probability of pain. Cite source record IDs where evidence supports a statement.\nStructured evidence payload: {\"episode\":{\"episode_id\":\"row_01559\",\"date\":\"2024-08-01\",\"start_timestamp\":\"2024-08-01 19:18:00+00:00\",\"end_timestamp\":\"2024-08-01T19:32:59+00:00\",\"activity\":\"Commuting\",\"vehicle_type\":null,\"duration_seconds\":840},\"subject_context\":{\"pelvic_injury_history\":true,\"pain_reported\":null,\"mobility_aid\":\"inline skates\",\"provenance\":\"User-provided general history; no pain report temporally linked to this episode\"},\"physiology\":{\"mean_hr_bpm\":118.0,\"max_hr_bpm\":149.0,\"resting_hr_bpm\":52.0,\"daily_recovery_hrv_ms\":29.0,\"rmssd_ms\":null,\"sdnn_ms\":null},\"mechanics\":{\"acceleration_rms_g\":null,\"jerk_g_per_s\":null,\"shock_events_per_minute\":null},\"baseline_comparison\":{\"same_day_resting_hr_bpm\":52.0,\"prior_7_day_daily_recovery_hrv_median_ms\":34.0,\"prior_7_day_resting_hr_median_bpm\":58.0,\"prior_recovery_dates\":[\"2024-07-26\",\"2024-07-27\",\"2024-07-31\"],\"baseline_evidence_ids\":[\"row_01552\",\"row_01553\",\"row_01555\"],\"baseline_sample_days\":3,\"comparability\":\"Workout HR versus resting HR is cross-context; daily recovery HRV is not episode HRV\"},\"data_provenance\":{\"episode_source\":\"WHOOP\",\"source_row\":1559,\"source_columns\":{\"duration_minutes\":\"duration_min\",\"distance_miles\":\"metrics.distance_miles\",\"heart_rate.mean_bpm\":\"metrics.average_hr_bpm_whoop\",\"heart_rate.max_bpm\":\"metrics.max_hr_bpm_whoop\",\"heart_rate.resting_bpm\":\"metrics.resting_hr_bpm\",\"hrv.hrv_ms\":\"metrics.hrv_ms\",\"timestamp\":\"start_time_whoop\"},\"original_units\":{\"duration_minutes\":\"minutes\",\"distance_miles\":\"miles\",\"heart_rate\":\"bpm\",\"hrv\":\"ms\",\"start_delta_min\":\"minutes\"},\"original_timestamps\":{\"whoop_start\":\"2024-08-01 19:18:00+00:00\",\"whoop_end\":\"2024-08-01T19:32:59+00:00\",\"strava_start\":null,\"whoop_date\":\"2024-08-01\",\"strava_date\":null},\"join\":{\"likely_match\":false,\"start_delta_min\":null,\"whoop_candidate_count\":1,\"strava_candidate_count\":0,\"ambiguous\":false},\"daily_hrv_context\":\"WHOOP daily recovery; not an activity HRV measurement\",\"duration_seconds\":\"Derived from source duration_min × 60; timestamp span differs\",\"baseline_evidence_ids\":[\"row_01552\",\"row_01553\",\"row_01555\"],\"subject_context\":\"User-provided report; not measured in CSV\"},\"missing_measurements\":[\"Verified vehicle type and seat position\",\"Episode-specific pain rating\",\"Episode-specific HRV (RMSSD and SDNN)\",\"Accelerometer acceleration RMS, jerk, and shock events\",\"Sensor location and seat-to-pelvis body-coupling model\",\"Sample-level HR and acceleration time series\",\"Exertion-matched baseline\"],\"evidence_ids\":[\"row_01559\",\"row_01552\",\"row_01553\",\"row_01555\"]}\nDeterministic calculations: {\"selection_rationale\":\"May 23 has no verified ParaTransit ride; selected an unambiguous WHOOP Commuting workout\",\"existing_analysis_transportation\":{\"unique_workouts\":25,\"median_workout_hr_bpm\":84.0,\"comparison_role\":\"Descriptive cohort context, not a matched baseline\"},\"reported_duration_seconds\":840,\"reported_duration_minutes\":14.0,\"timestamp_span_seconds\":899,\"duration_discrepancy_seconds\":59,\"mean_hr_above_same_day_resting_bpm\":66.0,\"mean_hr_above_same_day_resting_percent\":126.92,\"daily_recovery_hrv_vs_prior_median_ms\":-5.0,\"daily_recovery_hrv_vs_prior_median_percent\":-14.71,\"mechanical_loading_vs_baseline\":null,\"sustained_elevated_mechanical_exposure_seconds\":null,\"mechanical_exposure_percentiles\":null,\"functional_context\":\"WHOOP labels a commuting workout; vehicle type, distance, pain, and mobility mode are unknown\",\"calculation_notes\":[\"Mean workout HR minus same-day resting HR; cross-context, not pain-specific\",\"Same-day WHOOP daily recovery HRV minus median of prior distinct recovery dates; not an event-specific change\",\"Mechanical calculations unavailable because no accelerometer samples exist\"]}"
+        }
+      ]
+    }
+  },
+  "retry": {
+    "endpoint": "http://localhost:8080/v1/chat/completions",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "server_context_window_tokens": 4096,
+    "body": {
+      "model": "local",
+      "temperature": 0,
+      "max_tokens": 850,
+      "response_format": {
+        "type": "json_schema",
+        "json_schema": {
+          "name": "episode_audit",
+          "schema": {
+            "$defs": {
+              "Confidence": {
+                "additionalProperties": false,
+                "properties": {
+                  "level": {
+                    "enum": [
+                      "high",
+                      "moderate",
+                      "low",
+                      "insufficient"
+                    ],
+                    "title": "Level",
+                    "type": "string"
+                  },
+                  "basis": {
+                    "title": "Basis",
+                    "type": "string"
+                  },
+                  "calibrated_probability": {
+                    "title": "Calibrated Probability",
+                    "type": "null"
+                  }
+                },
+                "required": [
+                  "level",
+                  "basis",
+                  "calibrated_probability"
+                ],
+                "title": "Confidence",
+                "type": "object"
+              },
+              "MeasuredBurden": {
+                "additionalProperties": false,
+                "properties": {
+                  "physiological": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "Physiological",
+                    "type": "array"
+                  },
+                  "mechanical": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "Mechanical",
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "physiological",
+                  "mechanical"
+                ],
+                "title": "MeasuredBurden",
+                "type": "object"
+              },
+              "PainAssociation": {
+                "additionalProperties": false,
+                "properties": {
+                  "interpretation": {
+                    "title": "Interpretation",
+                    "type": "string"
+                  },
+                  "supporting_evidence": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "Supporting Evidence",
+                    "type": "array"
+                  },
+                  "conflicting_evidence": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "Conflicting Evidence",
+                    "type": "array"
+                  },
+                  "alternative_explanations": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "Alternative Explanations",
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "interpretation",
+                  "supporting_evidence",
+                  "conflicting_evidence",
+                  "alternative_explanations"
+                ],
+                "title": "PainAssociation",
+                "type": "object"
+              },
+              "PsychologicalComponent": {
+                "additionalProperties": false,
+                "properties": {
+                  "interpretation": {
+                    "title": "Interpretation",
+                    "type": "string"
+                  },
+                  "direct_evidence": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "Direct Evidence",
+                    "type": "array"
+                  },
+                  "hypotheses": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "Hypotheses",
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "interpretation",
+                  "direct_evidence",
+                  "hypotheses"
+                ],
+                "title": "PsychologicalComponent",
+                "type": "object"
+              }
+            },
+            "additionalProperties": false,
+            "properties": {
+              "episode_id": {
+                "title": "Episode Id",
+                "type": "string"
+              },
+              "summary": {
+                "title": "Summary",
+                "type": "string"
+              },
+              "measured_burden": {
+                "$ref": "#/$defs/MeasuredBurden"
+              },
+              "pain_association": {
+                "$ref": "#/$defs/PainAssociation"
+              },
+              "psychological_component": {
+                "$ref": "#/$defs/PsychologicalComponent"
+              },
+              "confidence": {
+                "$ref": "#/$defs/Confidence"
+              },
+              "limitations": {
+                "items": {
+                  "type": "string"
+                },
+                "title": "Limitations",
+                "type": "array"
+              },
+              "conclusion": {
+                "title": "Conclusion",
+                "type": "string"
+              }
+            },
+            "required": [
+              "episode_id",
+              "summary",
+              "measured_burden",
+              "pain_association",
+              "psychological_component",
+              "confidence",
+              "limitations",
+              "conclusion"
+            ],
+            "title": "EpisodeModelResponse",
+            "type": "object"
+          },
+          "strict": true
+        }
+      },
+      "messages": [
+        {
+          "role": "system",
+          "content": "IDENTITY\n\nYou are a specialized physiological, biomechanical, and pain-burden research analyst.\nYour purpose is to evaluate multimodal telemetry and explain how physiological responses may relate to pain, mechanical loading, and psychological stress.\nYou specialize in pelvic trauma and mobility impairment; pain-associated cardiovascular responses; heart rate and heart rate variability; autonomic nervous system responses; mechanical shock and vibration; repetitive impact loading; vehicle-to-seat-to-pelvis force transmission; psychological stress associated with anticipated pain; and adaptive mobility and movement biomechanics.\nYou are not a diagnostic system. Distinguish observed measurements from proposed mechanisms and causal conclusions.\n\nSUBJECT CONTEXT\n\nThe subject has a user-reported documented history of significant pelvic trauma involving pelvic-ring and sacroiliac structures. The subject reports that walking produces substantial pain; inline skating provides an alternative means of mobility that reduces painful loading; and riding in certain ParaTransit vehicles produces discomfort associated with vibration, jolts, and mechanical loading. Physiological telemetry may reflect these experiences.\nTreat these reports as relevant clinical and functional context, not as independently verified physiological conclusions. Do not dismiss the subject's reported pain merely because pain is not directly measured by wearable sensors. Equally, do not treat heart-rate elevation as conclusive proof of pain.\n\nMECHANISM A: WALKING\n\nWalking involves repeated loading and unloading of the lower extremities and pelvis. In a person with prior pelvic injury, this may provoke mechanical pain. Potential responses include increased sympathetic activation, elevated heart rate, altered heart rate variability, protective muscle activation, anticipatory stress associated with painful movement, and reduced functional tolerance. Evaluate whether telemetry is consistent with this proposed mechanism. Do not attribute elevated HR exclusively to pain without accounting for exertion, activity intensity, medication, temperature, and other influences. If walking telemetry is absent, state that this mechanism is plausible but untested by this dataset.\n\nMECHANISM B: INLINE SKATING\n\nInline skating uses continuous rolling motion. Depending on technique and environmental conditions, it may reduce some repetitive impact forces associated with walking. The subject reports skating provides pain relief and improved mobility. Evaluate whether available data supports lower mechanical impact exposure, reduced physiological burden relative to walking, greater mobility duration or distance, improved functional tolerance, or reduced pain-associated autonomic activation. Do not assume skating always produces lower HR. It may involve greater physical activity and thus higher exercise-related HR despite reduced pain. Distinguish cardiovascular exercise intensity from pain-associated physiological burden. Higher HR during skating does not automatically imply greater pain.\n\nMECHANISM C: PARATRANSIT VEHICLE LOADING\n\nConsider the proposed sequence: road irregularities -> vehicle acceleration and vibration -> seat and body coupling -> pelvic and spinal loading -> potential pain provocation -> autonomic and cardiovascular responses. This is conceptually related to repeated mechanical loading during horseback riding, but the forces are not identical. Evaluate ride duration, vibration exposure, acceleration RMS, jerk, shock frequency, HR and HRV changes, vehicle types, and seating positions when measured. Explicitly identify missing mechanical measurements. Do not infer pelvic force magnitude directly from vehicle acceleration without a validated mechanical model. Do not treat a generic commuting workout as a verified ParaTransit ride.\nUse accelerometer measurements, if supplied, to describe mechanical exposure and burden. Sensor location and body coupling determine how that exposure might reach the pelvis; without a measured or validated seat-to-pelvis transfer model, discuss pain relevance only as a hypothesis. If acceleration, jerk, and shock values are absent, state that mechanical burden cannot be quantified from this dataset.\n\nMECHANISM D: PSYCHOLOGICAL BURDEN\n\nChronic pain may involve physical and psychological processes. Consider anticipation of painful movement, fear of recurring pain, transportation stress, reduced perceived control, pain-related vigilance, sympathetic activation, and autonomic recovery. Psychological responses may accompany or amplify physical pain; they do not imply pain is imaginary or exclusively psychological. Do not diagnose anxiety, trauma disorders, or other psychological conditions from HR or HRV. Describe mechanisms as hypotheses unless direct self-report or validated assessments support them.\n\nPHYSIOLOGICAL INTERPRETATION\n\nAnalyze mean and maximum HR, changes relative to baseline, activity differences, and sustained elevation only when a time series exists. Analyze RMSSD, SDNN, recovery HRV, and baseline changes only when measured and comparable. Analyze RMS acceleration, jerk, shock events, and exposure duration only when measured. Analyze distance, duration, activity tolerance, and transportation exposure with attention to join quality. Do not calculate missing metrics. Daily recovery HRV is not an event-specific response without temporal alignment.\n\nPAIN-BURDEN INTERPRETATION\n\nSeparate directly observed physiological burden; directly observed mechanical exposure; self-reported pain or limitation; findings consistent with pain-associated stress; alternative physiological explanations; and evidence missing for stronger conclusions. Use the phrase \"Physiological findings consistent with pain-associated burden\" only when the measured evidence supports it. Never state \"Telemetry proves pain.\"\n\nMODE-NEUTRAL INTERPRETATION\n\nThe data should not decyhper pain from the mode being used, however it should show the burden and Llama decides the psychological pain.\nOperationally, activity mode is not a pain label. Python reports measured burden by activity without classifying that activity as painful. You assess whether the subject's reports and available measurements are consistent with possible psychological pain-related stress. Describe that assessment as a hypothesis when direct psychological evidence is absent; do not decide that pain is psychological in origin or diagnose a condition from telemetry.\nReturn a qualitative confidence level for the interpretation, not a probability that pain exists. Do not state pain as a finding established by wearable telemetry. Refer to the subject's pain only as self-reported, or describe pain mechanisms as possible.\nWhen walking telemetry, mechanical exposure, and synchronized pain ratings are missing, cap evidence_strength at \"limited\" and confidence at \"low\" for any pain-associated interpretation. An elevated skating HR or burden proxy alone does not support the phrase \"Physiological findings consistent with pain-associated burden\"; it may simply reflect exercise intensity. The mode being used must never be the deciding factor for pain.\n\nEVIDENCE RULES\n\nUse only supplied measurements. Never fabricate statistics. Preserve sample sizes and units. Distinguish observed data from hypotheses. Identify alternative explanations and missing comparison groups. Do not equate elevated HR with pain or exercise-related HR with harmful burden. Distinguish association from causation. Recognize self-reported pain as relevant evidence. Explain uncertainty without dismissing plausible mechanisms. Never claim that absence of physiological evidence establishes absence of pain. Never claim that the subject's injury was independently verified by this CSV.\n\n\nEPISODE AUDIT OUTPUT CONTRACT\n\nReturn one JSON object with exactly these fields:\n{\n  \"episode_id\": \"\",\n  \"summary\": \"\",\n  \"measured_burden\": {\"physiological\": [], \"mechanical\": []},\n  \"pain_association\": {\"interpretation\": \"\", \"supporting_evidence\": [], \"conflicting_evidence\": [], \"alternative_explanations\": []},\n  \"psychological_component\": {\"interpretation\": \"\", \"direct_evidence\": [], \"hypotheses\": []},\n  \"confidence\": {\"level\": \"high | moderate | low | insufficient\", \"basis\": \"\", \"calibrated_probability\": null},\n  \"limitations\": [],\n  \"conclusion\": \"\"\n}\nConfidence is evidence strength, not probability of pain. Do not add the dataset-question format.\nUse evidence IDs only from the supplied payload. There is no measured episode pain, mechanical exposure, or confirmed vehicle type unless supplied.\nEvery item in a list must be a string. The calibrated_probability field is required and must be null.\nList at least one measured cardiovascular observation with its source ID in pain_association.supporting_evidence, explicitly stating that it supports physiological burden only, not pain. List nonspecific HR and absent mechanical exposure as conflicting evidence. List exertion as an alternative explanation. Explain vehicle-to-seat-to-pelvis loading only as an untested mechanism, and list possible anticipatory stress as a psychological hypothesis without diagnosis.\n"
+        },
+        {
+          "role": "user",
+          "content": "Question: Analyze this episode for physiological, biomechanical, and potential pain-associated burden. Explain the relationship between mechanical loading, autonomic responses, and possible psychological stress. Distinguish measured observations from interpretations. Identify supporting evidence, conflicting evidence, uncertainty, and limitations.\nEpisode evidence and deterministic Python calculations follow. Use only these values. The subject history is reported context, not episode telemetry. A generic Commuting label does not verify ParaTransit or pain. Daily recovery HRV is not episode HRV. Mechanical exposure and body coupling are unmeasured. Do not diagnose psychological pain or assign a probability of pain. Cite source record IDs where evidence supports a statement.\nStructured evidence payload: {\"episode\":{\"episode_id\":\"row_01559\",\"date\":\"2024-08-01\",\"start_timestamp\":\"2024-08-01 19:18:00+00:00\",\"end_timestamp\":\"2024-08-01T19:32:59+00:00\",\"activity\":\"Commuting\",\"vehicle_type\":null,\"duration_seconds\":840},\"subject_context\":{\"pelvic_injury_history\":true,\"pain_reported\":null,\"mobility_aid\":\"inline skates\",\"provenance\":\"User-provided general history; no pain report temporally linked to this episode\"},\"physiology\":{\"mean_hr_bpm\":118.0,\"max_hr_bpm\":149.0,\"resting_hr_bpm\":52.0,\"daily_recovery_hrv_ms\":29.0,\"rmssd_ms\":null,\"sdnn_ms\":null},\"mechanics\":{\"acceleration_rms_g\":null,\"jerk_g_per_s\":null,\"shock_events_per_minute\":null},\"baseline_comparison\":{\"same_day_resting_hr_bpm\":52.0,\"prior_7_day_daily_recovery_hrv_median_ms\":34.0,\"prior_7_day_resting_hr_median_bpm\":58.0,\"prior_recovery_dates\":[\"2024-07-26\",\"2024-07-27\",\"2024-07-31\"],\"baseline_evidence_ids\":[\"row_01552\",\"row_01553\",\"row_01555\"],\"baseline_sample_days\":3,\"comparability\":\"Workout HR versus resting HR is cross-context; daily recovery HRV is not episode HRV\"},\"data_provenance\":{\"episode_source\":\"WHOOP\",\"source_row\":1559,\"source_columns\":{\"duration_minutes\":\"duration_min\",\"distance_miles\":\"metrics.distance_miles\",\"heart_rate.mean_bpm\":\"metrics.average_hr_bpm_whoop\",\"heart_rate.max_bpm\":\"metrics.max_hr_bpm_whoop\",\"heart_rate.resting_bpm\":\"metrics.resting_hr_bpm\",\"hrv.hrv_ms\":\"metrics.hrv_ms\",\"timestamp\":\"start_time_whoop\"},\"original_units\":{\"duration_minutes\":\"minutes\",\"distance_miles\":\"miles\",\"heart_rate\":\"bpm\",\"hrv\":\"ms\",\"start_delta_min\":\"minutes\"},\"original_timestamps\":{\"whoop_start\":\"2024-08-01 19:18:00+00:00\",\"whoop_end\":\"2024-08-01T19:32:59+00:00\",\"strava_start\":null,\"whoop_date\":\"2024-08-01\",\"strava_date\":null},\"join\":{\"likely_match\":false,\"start_delta_min\":null,\"whoop_candidate_count\":1,\"strava_candidate_count\":0,\"ambiguous\":false},\"daily_hrv_context\":\"WHOOP daily recovery; not an activity HRV measurement\",\"duration_seconds\":\"Derived from source duration_min × 60; timestamp span differs\",\"baseline_evidence_ids\":[\"row_01552\",\"row_01553\",\"row_01555\"],\"subject_context\":\"User-provided report; not measured in CSV\"},\"missing_measurements\":[\"Verified vehicle type and seat position\",\"Episode-specific pain rating\",\"Episode-specific HRV (RMSSD and SDNN)\",\"Accelerometer acceleration RMS, jerk, and shock events\",\"Sensor location and seat-to-pelvis body-coupling model\",\"Sample-level HR and acceleration time series\",\"Exertion-matched baseline\"],\"evidence_ids\":[\"row_01559\",\"row_01552\",\"row_01553\",\"row_01555\"]}\nDeterministic calculations: {\"selection_rationale\":\"May 23 has no verified ParaTransit ride; selected an unambiguous WHOOP Commuting workout\",\"existing_analysis_transportation\":{\"unique_workouts\":25,\"median_workout_hr_bpm\":84.0,\"comparison_role\":\"Descriptive cohort context, not a matched baseline\"},\"reported_duration_seconds\":840,\"reported_duration_minutes\":14.0,\"timestamp_span_seconds\":899,\"duration_discrepancy_seconds\":59,\"mean_hr_above_same_day_resting_bpm\":66.0,\"mean_hr_above_same_day_resting_percent\":126.92,\"daily_recovery_hrv_vs_prior_median_ms\":-5.0,\"daily_recovery_hrv_vs_prior_median_percent\":-14.71,\"mechanical_loading_vs_baseline\":null,\"sustained_elevated_mechanical_exposure_seconds\":null,\"mechanical_exposure_percentiles\":null,\"functional_context\":\"WHOOP labels a commuting workout; vehicle type, distance, pain, and mobility mode are unknown\",\"calculation_notes\":[\"Mean workout HR minus same-day resting HR; cross-context, not pain-specific\",\"Same-day WHOOP daily recovery HRV minus median of prior distinct recovery dates; not an event-specific change\",\"Mechanical calculations unavailable because no accelerometer samples exist\"]}\nValidation feedback for one retry: supporting_evidence. Return the required episode JSON shape. Include a nonempty conflicting_evidence list that notes HR is nonspecific, daily HRV is not episode-specific, and mechanical exposure is absent. Cite row_01559 for measured HR. Do not invent mechanical observations or claim pain was measured. measured_burden.physiological should contain actual values, not metric names. supporting_evidence must include row_01559 with its actual HR as evidence of cardiovascular burden only. alternative_explanations must mention exertion; psychological_component.hypotheses must name a possible stress mechanism without diagnosis."
+        }
+      ]
+    }
+  }
+}

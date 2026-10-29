@@ -1,0 +1,74 @@
+{
+  "initial": {
+    "http_status": 200,
+    "response": {
+      "choices": [
+        {
+          "finish_reason": "stop",
+          "index": 0,
+          "message": {
+            "content": "{ \"episode_id\": \"row_01559\", \"summary\": \"The subject engaged in a 14-minute WHOOP-labeled Commuting workout on August 1, 2024. The workout's mean heart rate was 118 bpm, with a maximum of 149 bpm. The daily recovery HRV was 29 ms, which is 14.71% lower than the median of prior distinct recovery dates. The subject has a history of pelvic injury and reports using inline skates as a mobility aid. However, the vehicle type, distance, pain, and mobility mode during this workout are unknown. The mechanical loading and sustained elevated mechanical exposure cannot be calculated due to the absence of accelerometer samples. The subject's resting heart rate is 52 bpm, which is the same as the same-day resting heart rate. The prior 7-day daily recovery HRV median is 34 ms, and the prior 7-day resting heart rate median is 58 bpm. The baseline evidence IDs are row_01552, row_01553, and row_01555, with 3 baseline sample days. The comparability of workout HR versus resting HR is cross-context, and daily recovery HRV is not an event-specific change. The mechanical exposure percentiles and sustained elevated mechanical exposure seconds are unavailable due to the absence of accelerometer samples. The functional context is a WHOOP-labeled Commuting workout, with unknown vehicle type, distance, pain, and mobility mode. The calculation notes include the mean workout HR minus same-day resting HR, which is cross-context and not pain-specific; same-day WHOOP daily recovery HRV minus median of prior distinct recovery dates, which is not an event-specific change; and mechanical calculations are unavailable due to the absence of accelerometer samples. The evidence IDs are row_01559, row_01552, row_01553, and row_01555. The missing measurements include verified vehicle type and seat position, episode-specific pain rating, episode-specific HRV (RMSSD and SDNN), accelerometer acceleration RMS, jerk, and shock events, sensor location and seat-to-pelvis body-coupling model, sample-level HR and acceleration time series, and exertion-matched baseline. The confidence level is low due to the absence of accelerometer samples and the unknown vehicle type, distance, pain, and mobility mode. The conclusion is that the subject's physiological and biomechanical responses during the workout are consistent with a Commuting workout, but the mechanical loading and sustained elevated mechanical exposure cannot be calculated. The subject's daily recovery HRV is lower than the median of prior distinct recovery dates, which may indicate a potential issue with the subject's recovery. However, the absence of accelerometer samples and the unknown vehicle type, distance, pain, and mobility mode limit the conclusions that can be drawn. \" }",
+            "role": "assistant"
+          }
+        }
+      ],
+      "created": 1793309773,
+      "model": "local",
+      "system_fingerprint": "b4404-0827b2c1",
+      "object": "chat.completion",
+      "usage": {
+        "completion_tokens": 571,
+        "prompt_tokens": 2660,
+        "total_tokens": 3231
+      },
+      "id": "chatcmpl-vPTpft8qSOceLKNa8XOssjMXCYySFUQc",
+      "timings": {
+        "prompt_n": 190,
+        "prompt_ms": 610.273,
+        "prompt_per_token_ms": 3.211963157894737,
+        "prompt_per_second": 311.33607418319343,
+        "predicted_n": 571,
+        "predicted_ms": 17422.465,
+        "predicted_per_token_ms": 30.512197898423818,
+        "predicted_per_second": 32.77377799295335
+      }
+    },
+    "model_content": "{ \"episode_id\": \"row_01559\", \"summary\": \"The subject engaged in a 14-minute WHOOP-labeled Commuting workout on August 1, 2024. The workout's mean heart rate was 118 bpm, with a maximum of 149 bpm. The daily recovery HRV was 29 ms, which is 14.71% lower than the median of prior distinct recovery dates. The subject has a history of pelvic injury and reports using inline skates as a mobility aid. However, the vehicle type, distance, pain, and mobility mode during this workout are unknown. The mechanical loading and sustained elevated mechanical exposure cannot be calculated due to the absence of accelerometer samples. The subject's resting heart rate is 52 bpm, which is the same as the same-day resting heart rate. The prior 7-day daily recovery HRV median is 34 ms, and the prior 7-day resting heart rate median is 58 bpm. The baseline evidence IDs are row_01552, row_01553, and row_01555, with 3 baseline sample days. The comparability of workout HR versus resting HR is cross-context, and daily recovery HRV is not an event-specific change. The mechanical exposure percentiles and sustained elevated mechanical exposure seconds are unavailable due to the absence of accelerometer samples. The functional context is a WHOOP-labeled Commuting workout, with unknown vehicle type, distance, pain, and mobility mode. The calculation notes include the mean workout HR minus same-day resting HR, which is cross-context and not pain-specific; same-day WHOOP daily recovery HRV minus median of prior distinct recovery dates, which is not an event-specific change; and mechanical calculations are unavailable due to the absence of accelerometer samples. The evidence IDs are row_01559, row_01552, row_01553, and row_01555. The missing measurements include verified vehicle type and seat position, episode-specific pain rating, episode-specific HRV (RMSSD and SDNN), accelerometer acceleration RMS, jerk, and shock events, sensor location and seat-to-pelvis body-coupling model, sample-level HR and acceleration time series, and exertion-matched baseline. The confidence level is low due to the absence of accelerometer samples and the unknown vehicle type, distance, pain, and mobility mode. The conclusion is that the subject's physiological and biomechanical responses during the workout are consistent with a Commuting workout, but the mechanical loading and sustained elevated mechanical exposure cannot be calculated. The subject's daily recovery HRV is lower than the median of prior distinct recovery dates, which may indicate a potential issue with the subject's recovery. However, the absence of accelerometer samples and the unknown vehicle type, distance, pain, and mobility mode limit the conclusions that can be drawn. \" }"
+  },
+  "retry": {
+    "http_status": 200,
+    "response": {
+      "choices": [
+        {
+          "finish_reason": "stop",
+          "index": 0,
+          "message": {
+            "content": "{\n  \"episode_id\": \"row_01559\",\n  \"summary\": \"Physiological burden and potential pain-associated burden analysis for a WHOOP Commuting workout on 2024-08-01.\",\n  \"measured_burden\": {\n    \"physiological\": [\n      {\"name\": \"mean_hr_bpm\", \"value\": 118.0},\n      {\"name\": \"max_hr_bpm\", \"value\": 149.0},\n      {\"name\": \"resting_hr_bpm\", \"value\": 52.0},\n      {\"name\": \"daily_recovery_hrv_ms\", \"value\": 29.0}\n    ],\n    \"mechanical\": []\n  },\n  \"pain_association\": {\n    \"interpretation\": \"Uncertain\",\n    \"supporting_evidence\": [],\n    \"conflicting_evidence\": [\n      {\"evidence_id\": \"row_01559\", \"description\": \"HR is nonspecific and may not indicate pain\"},\n      {\"evidence_id\": \"row_01559\", \"description\": \"Daily HRV is not episode-specific and may not indicate pain\"},\n      {\"evidence_id\": \"row_01559\", \"description\": \"Mechanical exposure is absent and cannot be inferred\"}\n    ],\n    \"alternative_explanations\": []\n  },\n  \"psychological_component\": {\n    \"interpretation\": \"Uncertain\",\n    \"direct_evidence\": [],\n    \"hypotheses\": []\n  },\n  \"confidence\": {\n    \"level\": \"low\",\n    \"basis\": \"Insufficient evidence to support or refute pain-associated burden\"\n  },\n  \"limitations\": [\n    \"No verified vehicle type or seat position\",\n    \"No episode-specific pain rating\",\n    \"No episode-specific HRV (RMSSD and SDNN)\",\n    \"No accelerometer acceleration RMS, jerk, and shock events\",\n    \"No sensor location and seat-to-pelvis body-coupling model\"\n  ],\n  \"conclusion\": \"Insufficient evidence to support or refute pain-associated burden for this episode.\"\n}",
+            "role": "assistant"
+          }
+        }
+      ],
+      "created": 1793309786,
+      "model": "local",
+      "system_fingerprint": "b4404-0827b2c1",
+      "object": "chat.completion",
+      "usage": {
+        "completion_tokens": 421,
+        "prompt_tokens": 2742,
+        "total_tokens": 3163
+      },
+      "id": "chatcmpl-iMKQQJtYdLdNRbyJAB87bHpJwPtpV4q8",
+      "timings": {
+        "prompt_n": 88,
+        "prompt_ms": 262.813,
+        "prompt_per_token_ms": 2.9865113636363634,
+        "prompt_per_second": 334.83883978342016,
+        "predicted_n": 421,
+        "predicted_ms": 12743.239,
+        "predicted_per_token_ms": 30.268976247030878,
+        "predicted_per_second": 33.0371265892447
+      }
+    },
+    "model_content": "{\n  \"episode_id\": \"row_01559\",\n  \"summary\": \"Physiological burden and potential pain-associated burden analysis for a WHOOP Commuting workout on 2024-08-01.\",\n  \"measured_burden\": {\n    \"physiological\": [\n      {\"name\": \"mean_hr_bpm\", \"value\": 118.0},\n      {\"name\": \"max_hr_bpm\", \"value\": 149.0},\n      {\"name\": \"resting_hr_bpm\", \"value\": 52.0},\n      {\"name\": \"daily_recovery_hrv_ms\", \"value\": 29.0}\n    ],\n    \"mechanical\": []\n  },\n  \"pain_association\": {\n    \"interpretation\": \"Uncertain\",\n    \"supporting_evidence\": [],\n    \"conflicting_evidence\": [\n      {\"evidence_id\": \"row_01559\", \"description\": \"HR is nonspecific and may not indicate pain\"},\n      {\"evidence_id\": \"row_01559\", \"description\": \"Daily HRV is not episode-specific and may not indicate pain\"},\n      {\"evidence_id\": \"row_01559\", \"description\": \"Mechanical exposure is absent and cannot be inferred\"}\n    ],\n    \"alternative_explanations\": []\n  },\n  \"psychological_component\": {\n    \"interpretation\": \"Uncertain\",\n    \"direct_evidence\": [],\n    \"hypotheses\": []\n  },\n  \"confidence\": {\n    \"level\": \"low\",\n    \"basis\": \"Insufficient evidence to support or refute pain-associated burden\"\n  },\n  \"limitations\": [\n    \"No verified vehicle type or seat position\",\n    \"No episode-specific pain rating\",\n    \"No episode-specific HRV (RMSSD and SDNN)\",\n    \"No accelerometer acceleration RMS, jerk, and shock events\",\n    \"No sensor location and seat-to-pelvis body-coupling model\"\n  ],\n  \"conclusion\": \"Insufficient evidence to support or refute pain-associated burden for this episode.\"\n}"
+  }
+}

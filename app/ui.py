@@ -460,6 +460,46 @@ def _upload_panel() -> None:
                 st.warning(str(warning))
 
 
+def _episode_panel() -> None:
+    with st.expander("Episode Evidence and Llama Reasoning"):
+        try:
+            preview = _get("/episode")
+        except (httpx.HTTPError, ValueError, TypeError) as exc:
+            st.info(f"Episode preview unavailable: {_api_error(exc)}")
+            return
+        evidence = preview.get("evidence") or {}
+        st.write("Selected episode", evidence.get("episode") or {})
+        st.write("Telemetry", {"physiology": evidence.get("physiology"), "mechanics": evidence.get("mechanics")})
+        st.write("Deterministic calculations", preview.get("calculations") or {})
+        st.caption("Generic Commuting is not a verified ParaTransit ride. Subject context is reported history; episode pain and vehicle mechanics are unmeasured.")
+        st.json(evidence)
+        if st.button("Analyze Episode with Llama", type="primary"):
+            try:
+                st.session_state["episode_live_audit"] = _post("/episode/analyze")
+            except (httpx.HTTPError, ValueError, TypeError) as exc:
+                st.error(f"Live episode analysis failed: {_api_error(exc)}")
+        audit = st.session_state.get("episode_live_audit")
+        if audit:
+            st.markdown("**Exact model prompt and inference parameters**")
+            st.json(audit.get("request") or {})
+            if audit.get("retry_request"):
+                st.markdown("**Exact validation-retry prompt**")
+                st.json(audit["retry_request"])
+            st.markdown("**Raw live model response**")
+            st.json(audit.get("raw_response") or {})
+            if audit.get("retry_raw_response"):
+                st.markdown("**Raw validation-retry model response**")
+                st.json(audit["retry_raw_response"])
+            candidate = audit.get("candidate") or {}
+            association = candidate.get("pain_association") or {}
+            st.write("Supporting evidence", association.get("supporting_evidence") or [])
+            st.write("Conflicting evidence", association.get("conflicting_evidence") or [])
+            st.write("Confidence", candidate.get("confidence") or {})
+            st.write("Limitations", candidate.get("limitations") or [])
+            st.write("Evidence validation", audit.get("validation") or {})
+            st.write("Execution trace", audit.get("execution_trace") or [])
+
+
 def main() -> None:
     st.set_page_config(page_title="Telemetry interview dashboard", layout="wide")
     if "session_id" not in st.session_state:
@@ -475,6 +515,7 @@ def main() -> None:
     _telemetry_panel()
     _results_panel()
     _ask_panel()
+    _episode_panel()
 
 
 if __name__ == "__main__":

@@ -1,0 +1,36 @@
+{
+  "http_status": 200,
+  "response": {
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "message": {
+          "content": "{ \"episode_id\": \"row_01559\", \"summary\": \"The subject engaged in a 14-minute WHOOP-labeled Commuting workout on August 1, 2024. The workout lasted 840 seconds, with a mean heart rate of 118 bpm and a maximum heart rate of 149 bpm. The daily recovery HRV was 29 ms, which is 5 ms lower than the median of prior distinct recovery dates. The subject has a history of pelvic injury and uses inline skates as a mobility aid. However, the vehicle type, distance, pain, and mobility mode during this workout are unknown. \", \"measured_burden\": {\"physiological\": [\"mean_hr_bpm\", \"max_hr_bpm\", \"resting_hr_bpm\", \"daily_recovery_hrv_ms\"], \"mechanical\": []}, \"pain_association\": {\"interpretation\": \"Uncertain\", \"supporting_evidence\": [], \"conflicting_evidence\": [], \"alternative_explanations\": [\"The subject's history of pelvic injury and use of inline skates as a mobility aid may contribute to the observed physiological burden.\"]}, \"psychological_component\": {\"interpretation\": \"Uncertain\", \"direct_evidence\": [], \"hypotheses\": [\"The subject may experience psychological stress related to the potential for pain during physical activity.\"]}, \"confidence\": {\"level\": \"low\", \"basis\": \"Insufficient data on vehicle type, distance, pain, and mobility mode during the workout\", \"calibrated_probability\": null}, \"limitations\": [\"The vehicle type, distance, pain, and mobility mode during the workout are unknown. The daily recovery HRV is not an event-specific change. Mechanical calculations are unavailable due to the absence of accelerometer samples.\"], \"conclusion\": \"The subject's physiological burden during the workout is uncertain due to the lack of data on vehicle type, distance, pain, and mobility mode. The potential for psychological stress related to pain during physical activity is also uncertain.\"}",
+          "role": "assistant"
+        }
+      }
+    ],
+    "created": 1793309732,
+    "model": "local",
+    "system_fingerprint": "b4404-0827b2c1",
+    "object": "chat.completion",
+    "usage": {
+      "completion_tokens": 408,
+      "prompt_tokens": 2652,
+      "total_tokens": 3060
+    },
+    "id": "chatcmpl-UM3QFIMT5Y050Vs38FyhpvS619t9LW3e",
+    "timings": {
+      "prompt_n": 1299,
+      "prompt_ms": 3275.024,
+      "prompt_per_token_ms": 2.5211886066204774,
+      "prompt_per_second": 396.6383147115869,
+      "predicted_n": 408,
+      "predicted_ms": 12212.466,
+      "predicted_per_token_ms": 29.932514705882355,
+      "predicted_per_second": 33.40848605023752
+    }
+  },
+  "model_content": "{ \"episode_id\": \"row_01559\", \"summary\": \"The subject engaged in a 14-minute WHOOP-labeled Commuting workout on August 1, 2024. The workout lasted 840 seconds, with a mean heart rate of 118 bpm and a maximum heart rate of 149 bpm. The daily recovery HRV was 29 ms, which is 5 ms lower than the median of prior distinct recovery dates. The subject has a history of pelvic injury and uses inline skates as a mobility aid. However, the vehicle type, distance, pain, and mobility mode during this workout are unknown. \", \"measured_burden\": {\"physiological\": [\"mean_hr_bpm\", \"max_hr_bpm\", \"resting_hr_bpm\", \"daily_recovery_hrv_ms\"], \"mechanical\": []}, \"pain_association\": {\"interpretation\": \"Uncertain\", \"supporting_evidence\": [], \"conflicting_evidence\": [], \"alternative_explanations\": [\"The subject's history of pelvic injury and use of inline skates as a mobility aid may contribute to the observed physiological burden.\"]}, \"psychological_component\": {\"interpretation\": \"Uncertain\", \"direct_evidence\": [], \"hypotheses\": [\"The subject may experience psychological stress related to the potential for pain during physical activity.\"]}, \"confidence\": {\"level\": \"low\", \"basis\": \"Insufficient data on vehicle type, distance, pain, and mobility mode during the workout\", \"calibrated_probability\": null}, \"limitations\": [\"The vehicle type, distance, pain, and mobility mode during the workout are unknown. The daily recovery HRV is not an event-specific change. Mechanical calculations are unavailable due to the absence of accelerometer samples.\"], \"conclusion\": \"The subject's physiological burden during the workout is uncertain due to the lack of data on vehicle type, distance, pain, and mobility mode. The potential for psychological stress related to pain during physical activity is also uncertain.\"}"
+}

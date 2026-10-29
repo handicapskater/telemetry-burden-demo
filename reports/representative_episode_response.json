@@ -1,0 +1,74 @@
+{
+  "initial": {
+    "http_status": 200,
+    "response": {
+      "choices": [
+        {
+          "finish_reason": "stop",
+          "index": 0,
+          "message": {
+            "content": "{\n  \"episode_id\": \"row_01559\",\n  \"summary\": \"Physiological and biomechanical analysis of a WHOOP Commuting workout with unknown vehicle type and mobility mode.\",\n  \"measured_burden\": {\n    \"physiological\": [\n      \"Mean HR: 118.0 bpm\",\n      \"Max HR: 149.0 bpm\",\n      \"Resting HR: 52.0 bpm\"\n    ],\n    \"mechanical\": []\n  },\n  \"pain_association\": {\n    \"interpretation\": \"Uncertain\",\n    \"supporting_evidence\": [],\n    \"conflicting_evidence\": [\n      \"Nonspecific HR: 118.0 bpm\",\n      \"Absent mechanical exposure\"\n    ],\n    \"alternative_explanations\": [\n      \"Exertion\"\n    ]\n  },\n  \"psychological_component\": {\n    \"interpretation\": \"Possible anticipatory stress\",\n    \"direct_evidence\": [],\n    \"hypotheses\": [\n      \"Possible anticipatory stress due to unknown vehicle type and mobility mode\"\n    ]\n  },\n  \"confidence\": {\n    \"level\": \"low\",\n    \"basis\": \"Uncertainty due to missing measurements and unknown vehicle type and mobility mode\",\n    \"calibrated_probability\": null\n  },\n  \"limitations\": [\n    \"Missing measurements: Verified vehicle type and seat position, Episode-specific pain rating, Episode-specific HRV (RMSSD and SDNN), Accelerometer acceleration RMS, jerk, and shock events, Sensor location and seat-to-pelvis body-coupling model, Sample-level HR and acceleration time series, Exertion-matched baseline\"\n  ],\n  \"conclusion\": \"The analysis is uncertain due to missing measurements and unknown vehicle type and mobility mode. Possible anticipatory stress is a hypothesis, but it cannot be confirmed without direct evidence.\"\n}",
+            "role": "assistant"
+          }
+        }
+      ],
+      "created": 1793309870,
+      "model": "local",
+      "system_fingerprint": "b4404-0827b2c1",
+      "object": "chat.completion",
+      "usage": {
+        "completion_tokens": 379,
+        "prompt_tokens": 2762,
+        "total_tokens": 3141
+      },
+      "id": "chatcmpl-t3RVyu9bgzFbuOKHFarR7FvFx0rxxqYC",
+      "timings": {
+        "prompt_n": 1199,
+        "prompt_ms": 3033.836,
+        "prompt_per_token_ms": 2.5303052543786486,
+        "prompt_per_second": 395.20923345889497,
+        "predicted_n": 379,
+        "predicted_ms": 11787.836,
+        "predicted_per_token_ms": 31.10246965699208,
+        "predicted_per_second": 32.15178765636034
+      }
+    },
+    "model_content": "{\n  \"episode_id\": \"row_01559\",\n  \"summary\": \"Physiological and biomechanical analysis of a WHOOP Commuting workout with unknown vehicle type and mobility mode.\",\n  \"measured_burden\": {\n    \"physiological\": [\n      \"Mean HR: 118.0 bpm\",\n      \"Max HR: 149.0 bpm\",\n      \"Resting HR: 52.0 bpm\"\n    ],\n    \"mechanical\": []\n  },\n  \"pain_association\": {\n    \"interpretation\": \"Uncertain\",\n    \"supporting_evidence\": [],\n    \"conflicting_evidence\": [\n      \"Nonspecific HR: 118.0 bpm\",\n      \"Absent mechanical exposure\"\n    ],\n    \"alternative_explanations\": [\n      \"Exertion\"\n    ]\n  },\n  \"psychological_component\": {\n    \"interpretation\": \"Possible anticipatory stress\",\n    \"direct_evidence\": [],\n    \"hypotheses\": [\n      \"Possible anticipatory stress due to unknown vehicle type and mobility mode\"\n    ]\n  },\n  \"confidence\": {\n    \"level\": \"low\",\n    \"basis\": \"Uncertainty due to missing measurements and unknown vehicle type and mobility mode\",\n    \"calibrated_probability\": null\n  },\n  \"limitations\": [\n    \"Missing measurements: Verified vehicle type and seat position, Episode-specific pain rating, Episode-specific HRV (RMSSD and SDNN), Accelerometer acceleration RMS, jerk, and shock events, Sensor location and seat-to-pelvis body-coupling model, Sample-level HR and acceleration time series, Exertion-matched baseline\"\n  ],\n  \"conclusion\": \"The analysis is uncertain due to missing measurements and unknown vehicle type and mobility mode. Possible anticipatory stress is a hypothesis, but it cannot be confirmed without direct evidence.\"\n}"
+  },
+  "retry": {
+    "http_status": 200,
+    "response": {
+      "choices": [
+        {
+          "finish_reason": "stop",
+          "index": 0,
+          "message": {
+            "content": "{\n  \"episode_id\": \"row_01559\",\n  \"summary\": \"Physiological and biomechanical analysis of a WHOOP Commuting workout\",\n  \"measured_burden\": {\n    \"physiological\": [\n      \"Mean HR: 118.0 bpm\",\n      \"Max HR: 149.0 bpm\",\n      \"Resting HR: 52.0 bpm\"\n    ],\n    \"mechanical\": []\n  },\n  \"pain_association\": {\n    \"interpretation\": \"Uncertain\",\n    \"supporting_evidence\": [\n      \"row_01559: Mean HR of 118.0 bpm supports physiological burden\"\n    ],\n    \"conflicting_evidence\": [\n      \"HR is nonspecific and does not directly indicate pain\",\n      \"Daily HRV is not an episode-specific measurement\",\n      \"Mechanical exposure is absent due to lack of accelerometer data\"\n    ],\n    \"alternative_explanations\": [\n      \"Exertion may be a contributing factor to physiological burden\"\n    ]\n  },\n  \"psychological_component\": {\n    \"interpretation\": \"Possible stress mechanism\",\n    \"direct_evidence\": [],\n    \"hypotheses\": [\n      \"Anticipatory stress may be a contributing factor to physiological burden\"\n    ]\n  },\n  \"confidence\": {\n    \"level\": \"low\",\n    \"basis\": \"Insufficient data to support a definitive conclusion\",\n    \"calibrated_probability\": null\n  },\n  \"limitations\": [\n    \"Lack of accelerometer data to measure mechanical exposure\",\n    \"Unknown vehicle type and distance\",\n    \"No pain rating or mobility aid information\"\n  ],\n  \"conclusion\": \"The analysis is inconclusive due to insufficient data, but it suggests that physiological burden may be present due to exertion or other factors.\"\n}",
+            "role": "assistant"
+          }
+        }
+      ],
+      "created": 1793309882,
+      "model": "local",
+      "system_fingerprint": "b4404-0827b2c1",
+      "object": "chat.completion",
+      "usage": {
+        "completion_tokens": 370,
+        "prompt_tokens": 2888,
+        "total_tokens": 3258
+      },
+      "id": "chatcmpl-YuQAPV3CDmAuupEL8ZKOyi1DS0A1mUsD",
+      "timings": {
+        "prompt_n": 132,
+        "prompt_ms": 409.65,
+        "prompt_per_token_ms": 3.1034090909090906,
+        "prompt_per_second": 322.2262907359942,
+        "predicted_n": 370,
+        "predicted_ms": 11807.42,
+        "predicted_per_token_ms": 31.911945945945945,
+        "predicted_per_second": 31.336227558602978
+      }
+    },
+    "model_content": "{\n  \"episode_id\": \"row_01559\",\n  \"summary\": \"Physiological and biomechanical analysis of a WHOOP Commuting workout\",\n  \"measured_burden\": {\n    \"physiological\": [\n      \"Mean HR: 118.0 bpm\",\n      \"Max HR: 149.0 bpm\",\n      \"Resting HR: 52.0 bpm\"\n    ],\n    \"mechanical\": []\n  },\n  \"pain_association\": {\n    \"interpretation\": \"Uncertain\",\n    \"supporting_evidence\": [\n      \"row_01559: Mean HR of 118.0 bpm supports physiological burden\"\n    ],\n    \"conflicting_evidence\": [\n      \"HR is nonspecific and does not directly indicate pain\",\n      \"Daily HRV is not an episode-specific measurement\",\n      \"Mechanical exposure is absent due to lack of accelerometer data\"\n    ],\n    \"alternative_explanations\": [\n      \"Exertion may be a contributing factor to physiological burden\"\n    ]\n  },\n  \"psychological_component\": {\n    \"interpretation\": \"Possible stress mechanism\",\n    \"direct_evidence\": [],\n    \"hypotheses\": [\n      \"Anticipatory stress may be a contributing factor to physiological burden\"\n    ]\n  },\n  \"confidence\": {\n    \"level\": \"low\",\n    \"basis\": \"Insufficient data to support a definitive conclusion\",\n    \"calibrated_probability\": null\n  },\n  \"limitations\": [\n    \"Lack of accelerometer data to measure mechanical exposure\",\n    \"Unknown vehicle type and distance\",\n    \"No pain rating or mobility aid information\"\n  ],\n  \"conclusion\": \"The analysis is inconclusive due to insufficient data, but it suggests that physiological burden may be present due to exertion or other factors.\"\n}"
+  }
+}
