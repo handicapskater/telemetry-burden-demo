@@ -77,3 +77,16 @@ def test_commuting_alias_uses_computed_comparison_and_accepts_grounded_llama(mon
     assert result["execution_trace"][-1] == "evidence_validator: accepted"
     assert "Computed evidence:" in result["answer"]
     assert "transportation" in result["answer"]
+
+
+def test_highest_hr_searches_all_categories_and_unrelated_question_abstains(monkeypatch):
+    monkeypatch.setattr("app.graph.local_completion", lambda *_: (None, "local inference unavailable: test"))
+    rows = [record("row_1"), record("row_2", "yoga", "2024-01-02", 30, 80)]
+    rows[0]["heart_rate"]["max_bpm"] = 150
+    rows[1]["heart_rate"]["max_bpm"] = 170
+    highest = answer_question("Which activity has the highest HR?", "highest-test", rows)
+    assert "Highest observed workout maximum HR" in highest["answer"]
+    assert "yoga" in highest["answer"]
+    unrelated = answer_question("What is my favorite color?", "unsupported-test", rows)
+    assert "telemetry cannot answer this question" in unrelated["answer"]
+    assert unrelated["execution_trace"][-2] == "llama: abstention"

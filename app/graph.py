@@ -70,17 +70,25 @@ def _analysis_specialist(state: AnalysisState) -> AnalysisState:
     question = state["question"].lower()
     pain_question = "pain" in question
     mobility_question = bool(re.search(r"\b(mobility aid|alternative mobility|skate.vs.walk|skating versus walking)\b", question))
+    supported_question = bool(re.search(r"\b(hr|hrv|heart|burden|physiolog\w*|stress|pain|walk\w*|skat\w*|commut\w*|transport\w*|mobility|activit\w*|duration|distance|recovery|strain|whoop|strava|polar|device\w*|record\w*|measur\w*)\b", question))
+    highest_hr_question = bool(re.search(r"\b(highest|maximum|peak|max)\b", question) and re.search(r"\b(hr|heart rate)\b", question))
     selected = _mentioned_categories(question, result["observed_activities"])
     missing = []
     if re.search(r"\bwalk(?:ing|s)?\b", question) and "walking" not in activities:
         missing.append("walking")
-    if not selected and not missing and not pain_question and not mobility_question:
+    if highest_hr_question:
+        eligible = [(name, values["max_heart_rate_bpm"]) for name, values in activities.items()
+                    if values["max_heart_rate_bpm"] is not None]
+        selected = [max(eligible, key=lambda item: item[1])[0]] if eligible else []
+    elif not selected and not missing and not pain_question and not mobility_question and supported_question:
         selected = sorted(activities, key=lambda name: (-activities[name]["count"], name))[:3]
     evidence = []
     for category in selected:
         evidence.extend(activities[category]["evidence_ids"][:5])
     evidence = list(dict.fromkeys(evidence))
-    if pain_question:
+    if not supported_question:
+        draft = "The supplied telemetry cannot answer this question. Ask about measured activities, heart rate, daily recovery HRV, or descriptive burden."
+    elif pain_question:
         draft = "No: elevated HR or altered HRV cannot independently prove pain. Exertion, fitness, medication, and temperature can also affect these measurements. The supplied workout summaries cannot establish a pain cause."
     elif mobility_question:
         draft = "An alternative mobility aid may be beneficial in general if it helps a person move with less effort or better access. These records do not establish that benefit. No walking observations support a measured skating versus walking conclusion."
@@ -89,7 +97,7 @@ def _analysis_specialist(state: AnalysisState) -> AnalysisState:
         if selected:
             draft += " Observed requested categories: " + ", ".join(selected) + "."
     elif not selected:
-        draft = "No workouts are available for analysis."
+        draft = "No relevant heart-rate measurements are available for this question."
     else:
         clauses = []
         for category in selected:
@@ -102,6 +110,8 @@ def _analysis_specialist(state: AnalysisState) -> AnalysisState:
                 f"({values['burden_classification']})"
             )
         draft = "; ".join(clauses) + "."
+        if highest_hr_question:
+            draft = "Highest observed workout maximum HR: " + draft
         if len(selected) > 1:
             draft += " These are descriptive comparisons of observed categories."
             for comparison in result["comparisons"]:
@@ -127,7 +137,7 @@ def _analysis_specialist(state: AnalysisState) -> AnalysisState:
 
 
 def _llama_node(state: AnalysisState) -> AnalysisState:
-    if "No walking workouts are observed" in state["draft"]:
+    if "No walking workouts are observed" in state["draft"] or "telemetry cannot answer this question" in state["draft"]:
         return {"candidate": None, "inference_status": "local inference skipped: missing category abstention",
                 "execution_trace": state["execution_trace"] + ["llama: abstention"]}
     metrics = state["metrics"]
