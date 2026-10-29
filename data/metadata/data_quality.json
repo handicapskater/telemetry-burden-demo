@@ -1,0 +1,55 @@
+{
+  "total_input_rows": 2601,
+  "valid_records": 2601,
+  "rejected_records": 0,
+  "missing_physiological_fields": {
+    "mean_hr": 9,
+    "max_hr": 9,
+    "hrv": 63,
+    "rmssd": 2601,
+    "sdnn": 2601
+  },
+  "device_coverage": {
+    "WHOOP": 2601,
+    "Strava": 2303,
+    "Polar": 0
+  },
+  "activity_coverage": {
+    "other": 10,
+    "skating": 943,
+    "manual_labor": 59,
+    "meditation": 13,
+    "motocross": 314,
+    "activity": 35,
+    "yoga": 575,
+    "dance": 55,
+    "wheelchair_pushing": 105,
+    "obstacle_course_racing": 10,
+    "stage_performance": 44,
+    "gaming": 51,
+    "boxing": 2,
+    "functional_fitness": 14,
+    "table_tennis/ping_pong": 1,
+    "table_tennis": 1,
+    "mountain_biking": 2,
+    "transportation": 64,
+    "assault_bike": 2,
+    "kayaking": 2,
+    "powerlifting": 1,
+    "cleaning": 8,
+    "horseback_riding": 253,
+    "high_stress_work": 1,
+    "cycling": 15,
+    "operations_-_tactical": 1,
+    "musical_performance": 20
+  },
+  "duplicate_records": 1079,
+  "ambiguous_matches": 1933,
+  "warnings": [
+    "Join candidate rows are not unique workouts; deduplicate WHOOP event keys for statistics.",
+    "WHOOP HRV is a daily recovery metric, not activity-measured HRV.",
+    "No RMSSD or SDNN fields.",
+    "No Polar records.",
+    "No explicit walking activity; walking-versus-skating comparison unavailable."
+  ]
+}
