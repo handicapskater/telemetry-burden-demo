@@ -1,0 +1,27 @@
+[
+  {
+    "question": "What WHOOP measurements are available?",
+    "expected_specialist": "data",
+    "check": "Cite observed source rows and explain that HRV is daily recovery context."
+  },
+  {
+    "question": "Compare walking and skating heart rates.",
+    "expected_specialist": "analysis",
+    "check": "Abstain from the requested comparison because walking is absent; report observed skating only."
+  },
+  {
+    "question": "Compare skating and commuting cardiovascular burden.",
+    "expected_specialist": "analysis",
+    "check": "Use deduplicated workouts and show sample sizes, medians, and absolute and percentage differences."
+  },
+  {
+    "question": "Does elevated HR prove pain?",
+    "expected_specialist": "analysis",
+    "check": "State clearly that telemetry alone cannot establish pain or causation."
+  },
+  {
+    "question": "Do you have Polar or activity RMSSD measurements?",
+    "expected_specialist": "data",
+    "check": "Report their absence and avoid deriving RMSSD from aggregate HR."
+  }
+]
