@@ -1,0 +1,178 @@
+{
+  "timestamp_utc": "2026-10-29T22:41:31.353766+00:00",
+  "protocol": "application-level JSON tool call; installed llama.cpp build 4404 rejects OpenAI tools parameter",
+  "question": "For episode row_01559, what are the measured mean and maximum heart rate and jerk? What do these measurements establish about pain?",
+  "steps": [
+    {
+      "step": "llama_tool_request",
+      "request": {
+        "endpoint": "http://localhost:8080/v1/chat/completions",
+        "body": {
+          "model": "local",
+          "temperature": 0,
+          "max_tokens": 160,
+          "response_format": {
+            "type": "json_object"
+          },
+          "messages": [
+            {
+              "role": "system",
+              "content": "You are an evidence analyst. You do not have telemetry until a tool returns it. For any question needing measurements, respond with only a JSON tool request in this exact shape: {\"action\":\"call_tool\",\"tool\":\"get_episode_telemetry\",\"arguments\":{\"episode_id\":\"row_01559\"}}. The only permitted tool is get_episode_telemetry. Never invent measurements."
+            },
+            {
+              "role": "user",
+              "content": "For episode row_01559, what are the measured mean and maximum heart rate and jerk? What do these measurements establish about pain?"
+            }
+          ]
+        }
+      },
+      "raw_response": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "content": "{\"action\":\"call_tool\",\"tool\":\"get_episode_telemetry\",\"arguments\":{\"episode_id\":\"row_01559\"}}",
+              "role": "assistant"
+            }
+          }
+        ],
+        "created": 1793313689,
+        "model": "local",
+        "system_fingerprint": "b4404-0827b2c1",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 25,
+          "prompt_tokens": 116,
+          "total_tokens": 141
+        },
+        "id": "chatcmpl-UEcgVMqYtqEONI1rEMJJ1vQhoADCQHX7",
+        "timings": {
+          "prompt_n": 1,
+          "prompt_ms": 149.124,
+          "prompt_per_token_ms": 149.124,
+          "prompt_per_second": 6.705828706311526,
+          "predicted_n": 25,
+          "predicted_ms": 519.356,
+          "predicted_per_token_ms": 20.77424,
+          "predicted_per_second": 48.13653832823728
+        }
+      },
+      "model_content": "{\"action\":\"call_tool\",\"tool\":\"get_episode_telemetry\",\"arguments\":{\"episode_id\":\"row_01559\"}}"
+    },
+    {
+      "step": "python_tool_execution",
+      "validated_call": {
+        "action": "call_tool",
+        "tool": "get_episode_telemetry",
+        "arguments": {
+          "episode_id": "row_01559"
+        }
+      },
+      "tool_result": {
+        "record_id": "row_01559",
+        "source": "WHOOP",
+        "original_activity": "Commuting",
+        "timestamp": "2024-08-01 19:18:00+00:00",
+        "measurements": {
+          "mean_hr_bpm": 118.0,
+          "max_hr_bpm": 149.0,
+          "jerk": {
+            "value": null,
+            "unit": null
+          }
+        },
+        "provenance": {
+          "source_row": 1559,
+          "mean_hr_column": "metrics.average_hr_bpm_whoop",
+          "max_hr_column": "metrics.max_hr_bpm_whoop",
+          "jerk_column": null,
+          "join_ambiguous": false
+        },
+        "limitations": [
+          "No accelerometer jerk measurement in this source record.",
+          "Heart rate does not independently establish pain.",
+          "The Commuting activity label does not identify a vehicle type or episode pain."
+        ]
+      }
+    },
+    {
+      "step": "llama_follow_up",
+      "request": {
+        "endpoint": "http://localhost:8080/v1/chat/completions",
+        "body": {
+          "model": "local",
+          "temperature": 0,
+          "max_tokens": 260,
+          "response_format": {
+            "type": "json_object"
+          },
+          "messages": [
+            {
+              "role": "system",
+              "content": "You are an evidence analyst. You do not have telemetry until a tool returns it. For any question needing measurements, respond with only a JSON tool request in this exact shape: {\"action\":\"call_tool\",\"tool\":\"get_episode_telemetry\",\"arguments\":{\"episode_id\":\"row_01559\"}}. The only permitted tool is get_episode_telemetry. Never invent measurements."
+            },
+            {
+              "role": "user",
+              "content": "For episode row_01559, what are the measured mean and maximum heart rate and jerk? What do these measurements establish about pain?"
+            },
+            {
+              "role": "assistant",
+              "content": "{\"action\":\"call_tool\",\"tool\":\"get_episode_telemetry\",\"arguments\":{\"episode_id\":\"row_01559\"}}"
+            },
+            {
+              "role": "user",
+              "content": "Tool get_episode_telemetry returned: {\"record_id\":\"row_01559\",\"source\":\"WHOOP\",\"original_activity\":\"Commuting\",\"timestamp\":\"2024-08-01 19:18:00+00:00\",\"measurements\":{\"mean_hr_bpm\":118.0,\"max_hr_bpm\":149.0,\"jerk\":{\"value\":null,\"unit\":null}},\"provenance\":{\"source_row\":1559,\"mean_hr_column\":\"metrics.average_hr_bpm_whoop\",\"max_hr_column\":\"metrics.max_hr_bpm_whoop\",\"jerk_column\":null,\"join_ambiguous\":false},\"limitations\":[\"No accelerometer jerk measurement in this source record.\",\"Heart rate does not independently establish pain.\",\"The Commuting activity label does not identify a vehicle type or episode pain.\"]}\nNow answer the original question using only this result. Return JSON with answer, evidence_ids, and missing_measurements. State that jerk is unavailable and heart rate does not prove pain. Do not invent a vehicle type or pain rating."
+            }
+          ]
+        }
+      },
+      "raw_response": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "content": "{\n  \"answer\": \"The mean and maximum heart rate for episode row_01559 are 118.0 and 149.0 bpm, respectively. However, these measurements do not establish pain.\",\n  \"evidence_ids\": [\"row_01559\"],\n  \"missing_measurements\": [\"jerk\"]\n}",
+              "role": "assistant"
+            }
+          }
+        ],
+        "created": 1793313691,
+        "model": "local",
+        "system_fingerprint": "b4404-0827b2c1",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 65,
+          "prompt_tokens": 360,
+          "total_tokens": 425
+        },
+        "id": "chatcmpl-yHfeg92B74jQ9WCdiSDkEdzVDX18atWL",
+        "timings": {
+          "prompt_n": 220,
+          "prompt_ms": 498.37,
+          "prompt_per_token_ms": 2.265318181818182,
+          "prompt_per_second": 441.43909143808816,
+          "predicted_n": 65,
+          "predicted_ms": 1421.715,
+          "predicted_per_token_ms": 21.87253846153846,
+          "predicted_per_second": 45.71943040623473
+        }
+      },
+      "model_content": "{\n  \"answer\": \"The mean and maximum heart rate for episode row_01559 are 118.0 and 149.0 bpm, respectively. However, these measurements do not establish pain.\",\n  \"evidence_ids\": [\"row_01559\"],\n  \"missing_measurements\": [\"jerk\"]\n}"
+    }
+  ],
+  "validation": {
+    "passed": true,
+    "checks": {
+      "model_issued_tool_call": true,
+      "tool_read_verified_record": true,
+      "model_cited_record": true,
+      "answer_uses_measured_hr": true,
+      "missing_jerk_preserved": true,
+      "model_acknowledged_missing_jerk": true,
+      "no_unknown_evidence_ids": true,
+      "no_pain_proof": true
+    }
+  }
+}
