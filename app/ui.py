@@ -142,7 +142,7 @@ def _chart_activity(workouts: list[dict[str, Any]]) -> None:
         yaxis=dict(dtick=1),
         margin=dict(l=20, r=20, t=50, b=20),
     )
-    st.plotly_chart(figure, use_container_width=True)
+    st.plotly_chart(figure, width="stretch")
 
 
 def _chart_heart_rate(workouts: list[dict[str, Any]]) -> None:
@@ -173,7 +173,7 @@ def _chart_heart_rate(workouts: list[dict[str, Any]]) -> None:
         yaxis_title="Mean heart rate (bpm)",
         margin=dict(l=20, r=20, t=50, b=20),
     )
-    st.plotly_chart(figure, use_container_width=True)
+    st.plotly_chart(figure, width="stretch")
 
 
 def _chart_group_metric(
@@ -212,7 +212,7 @@ def _chart_group_metric(
         yaxis_title=unit,
         margin=dict(l=20, r=20, t=50, b=20),
     )
-    st.plotly_chart(figure, use_container_width=True)
+    st.plotly_chart(figure, width="stretch")
 
 
 def _chart_burden(analysis: dict[str, Any] | None) -> None:
@@ -243,7 +243,7 @@ def _chart_burden(analysis: dict[str, Any] | None) -> None:
         yaxis_title="Mean burden proxy",
         margin=dict(l=20, r=20, t=50, b=20),
     )
-    st.plotly_chart(figure, use_container_width=True)
+    st.plotly_chart(figure, width="stretch")
     st.caption(str((analysis or {}).get("burden_method") or "Descriptive burden proxy from API analysis; not a clinical load measure."))
 
 
@@ -311,7 +311,7 @@ def _telemetry_panel() -> None:
                 }
                 for record in records
             ],
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
 

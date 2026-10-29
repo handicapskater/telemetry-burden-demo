@@ -13,10 +13,26 @@ from app.ingestion import (
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE = Path("/Users/troywilkes/telemetry-burden-demo/data/raw/whoop_strava_join_candidates.csv")
+SOURCE = ROOT / "data/raw/whoop_strava_join_candidates.csv"
 SCHEMA = ROOT / "data/metadata/schema.json"
 
 
+def sample_rows():
+    columns = json.loads(SCHEMA.read_text())["input_columns"]
+    first = {column: "" for column in columns}
+    first.update({
+        "entity_type_whoop": "whoop_workout_event", "activity_name_whoop": "Inline Skating",
+        "start_time_whoop": "2024-01-01T12:00:00Z", "duration_min": "30",
+        "metrics.average_hr_bpm_whoop": "120", "metrics.max_hr_bpm_whoop": "150",
+        "metrics.hrv_ms": "40", "event_id_strava": "strava_1",
+        "entity_type_strava": "strava_activity", "likely_match": "True",
+    })
+    second = dict(first)
+    second["activity_name_strava"] = "Another candidate"
+    return [first, second]
+
+
+@pytest.mark.skipif(not SOURCE.exists(), reason="private source CSV is unavailable in CI")
 def test_full_source_matches_contract_and_checked_in_sample(tmp_path):
     rows = load_csv(SOURCE)
     validated = validate_records(rows)
@@ -47,18 +63,18 @@ def test_full_source_matches_contract_and_checked_in_sample(tmp_path):
 
 
 def test_repeated_candidates_remain_distinct_and_ambiguous():
-    rows = load_csv(SOURCE)
-    records = normalize_telemetry(rows[:4], SCHEMA)
-    assert records[2].record_id == "row_00003"
-    assert records[2].join["whoop_candidate_count"] == 2
-    assert records[3].join["whoop_candidate_count"] == 2
-    assert records[2].join["ambiguous"] is True
-    assert records[3].join["ambiguous"] is True
+    records = normalize_telemetry(sample_rows(), SCHEMA)
+    assert records[0].record_id == "row_00001"
+    assert records[1].record_id == "row_00002"
+    assert records[0].join["whoop_candidate_count"] == 2
+    assert records[1].join["whoop_candidate_count"] == 2
+    assert records[0].join["ambiguous"] is True
+    assert records[1].join["ambiguous"] is True
     assert generate_quality_report(records).duplicate_records == 1
 
 
 def test_invalid_schema_fails_without_discarding_rows():
-    rows = load_csv(SOURCE)
+    rows = sample_rows()
     malformed = dict(rows[0])
     malformed.pop("start_time_whoop")
     with pytest.raises(ValueError, match="row 1"):

@@ -1,0 +1,13 @@
+.git
+.venv
+.idea
+__pycache__
+.pytest_cache
+.env
+*.log
+*.gguf
+data/raw
+data/processed
+data/analysis
+tests
+evaluation
