@@ -4,8 +4,10 @@ from __future__ import annotations
 
 from collections import defaultdict
 from math import isfinite
-from statistics import mean, median
 from typing import Any, Iterable
+
+import numpy as np
+import pandas as pd
 
 
 def _mapping(record: Any) -> dict[str, Any]:
@@ -35,15 +37,15 @@ def _identity(row: dict[str, Any]) -> tuple[Any, Any, Any]:
 
 
 def _mean(values: list[float]) -> float | None:
-    return round(mean(values), 2) if values else None
+    return round(float(np.mean(values)), 2) if values else None
 
 
 def _median(values: list[float]) -> float | None:
-    return round(median(values), 2) if values else None
+    return round(float(pd.Series(values, dtype="float64").median()), 2) if values else None
 
 
 def _max(values: list[float]) -> float | None:
-    return round(max(values), 2) if values else None
+    return round(float(np.max(values)), 2) if values else None
 
 
 def _burden_class(value: float | None) -> str | None:
@@ -96,7 +98,7 @@ def analyze_records(records: Iterable[Any]) -> dict[str, Any]:
         activities[activity] = {
             "count": len(group),
             "mean_duration_minutes": _mean(durations),
-            "median_duration_minutes": round(median(durations), 2) if durations else None,
+            "median_duration_minutes": _median(durations),
             "max_duration_minutes": _max(durations),
             "mean_heart_rate_bpm": _mean(heart_rates),
             "heart_rate_sample_count": len(heart_rates),
