@@ -116,7 +116,8 @@ def validate_pain_report(candidate: dict[str, Any], evidence: EvidencePayload, q
                               *report.observed_physiological_burden.findings]).lower()
         biomechanics_only = " ".join([report.biomechanical_interpretation.mechanism,
                                         *report.biomechanical_interpretation.supporting_evidence])
-        if NUMBER.search(SOURCE_ID.sub("", biomechanics_only)):
+        if (re.search(r"\b(?:vibration|acceleration|jerk|shock|pelvic force|pelvic load|impact)\b[^.]{0,35}\b\d+(?:\.\d+)?\b", biomechanics_only, re.I)
+                or re.search(r"\b\d+(?:\.\d+)?\s*(?:g|m/s2|m/s\^2|hz|newtons?)\b", biomechanics_only, re.I)):
             reasons.append("Unmeasured mechanical exposure was quantified")
         if re.search(r"(?:measured|recorded|observed|quantified)\s+(?:vehicle\s+)?(?:vibration|acceleration|jerk|shock|pelvic force)", mech_text):
             reasons.append("Mechanical exposure asserted as measured")
